@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+
+<html lang="ar">
+<head>
+<link rel="shortcut icon" href="1.jpg" type="image/x-icon">
+<meta charset="utf-8"/>
+<title>calculater</title>
+<style>
+    body {
+      background-color: #000;
+      font-family: Arial, sans-serif;
+      direction: rtl;
+      color: white;
+      margin: 0;
+      padding: 20px;
+      position: relative;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      border-radius: 0 10px 10px 0;
+      border: none;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+
+    input[readonly] {
+      background-color: #333;
+      color: white;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-bottom: 10px;
+    }
+
+    td {
+      padding: 10px;
+      text-align: center;
+    }
+
+    .yellow { background-color: yellow; color: black; border-radius: 10px 0 0 10px; padding: 10px; }
+    .red { background-color: red; color: white; border-radius: 10px 0 0 10px; padding: 10px; }
+    .blue { background-color: #00aaff; color: white; border-radius: 10px 0 0 10px; padding: 10px; }
+
+    .top-row {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-bottom: 30px;
+    }
+
+    .top-container, .container {
+      background-color: #111;
+      padding: 20px;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+      width: 350px;
+      font-size: 14px;
+    }
+
+    .percent-display {
+      margin-top: 5px;
+      font-weight: bold;
+    }
+
+    .product-options {
+      background-color: black;
+      color: black;
+      padding: 20px;
+      border-radius: 12px;
+      margin-top: 40px;
+      direction: ltr;
+    }
+
+    .product-options select {
+      padding: 6px;
+      font-size: 12pt;
+    }
+
+    .product-options table {
+      border-collapse: collapse;
+      margin-top: 10px;
+      margin-bottom: 20px;
+    }
+
+    .product-options td {
+      border: 1px solid #AAAAAA;
+      background-color: #FFFFFF;
+      padding: 4px 10px;
+      font-size: 11pt;
+      text-align: center;
+      min-width: 60px;
+    }
+
+    .product-options .bold {
+      font-weight: bold;
+    }
+
+    .option-content {
+      display: none;
+    }
+
+    .padded { padding: 10px 20px; }
+
+    .proper-tools-row {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      margin-top: 20px;
+      flex-wrap: wrap;
+      position: relative;
+    }
+
+    .proper-case-tool {
+      background-color: #111;
+      padding: 10px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
+      font-size: 10px;
+      min-width: 300px;
+    }
+
+    /* تعديل لون وحجم كلمة Proper*/
+    .proper-case-tool h2 {
+      color: white !important;
+      font-size: 12px;
+      margin-bottom: 6px;
+      text-align: center;
+    }
+
+    /* نص textarea باللون الأبيض */
+    #inputText {
+      color: white;
+      background-color: #111;
+      border: none;
+      border-radius: 8px;
+      padding: 8px;
+      resize: vertical;
+      font-size: 14px;
+      font-family: Arial, sans-serif;
+    }
+  </style>
+</head>
+<body>
+<div class="top-row">
+<!-- النسبة -->
+<div class="top-container">
+<h2>discount on delivery</h2>
+<div class="row" style="display: flex; justify-content: center; gap: 30px;">
+<div style="text-align:center;">
+<div class="box red" style="margin-bottom:10px;">Percentage by Vendor
+</div>
+<input id="amount1" oninput="calculateRatio()" style="width: 150px;" type="number"/>
+<div class="percent-display" id="percent1"></div>
+</div>
+<div style="text-align:center;">
+<div class="box blue" style="margin-bottom:10px;">Percentage by Mythings</div>
+<input id="amount2" readonly="" style="width: 150px;" type="text"/>
+<div class="percent-display" id="percent2"></div>
+</div>
+</div>
+<div class="row" style="display: flex; justify-content: center; margin-top: 30px;">
+<div style="text-align:center;">
+<div class="box yellow" style="margin-bottom:10px; color: black;">Percentage</div>
+<input id="targetPrice" oninput="calculateRatio()" style="width: 150px;" type="number"/>
+</div>
+</div>
+</div>
+<!-- السعر بعد الخصم -->
+<div class="container">
+<h2>السعر بعد الخصم</h2>
+<table>
+<tr>
+<td class="yellow">السعر قبل الخصم</td>
+<td><input id="price1" oninput="calculateDiscount1()" type="number"/></td>
+</tr>
+<tr>
+<td class="red">نسبة الخصم</td>
+<td><input id="discount1" oninput="calculateDiscount1()" type="number"/></td>
+</tr>
+<tr>
+<td class="blue">السعر بعد الخصم</td>
+<td><input id="result1" readonly="" type="text"/></td>
+</tr>
+</table>
+</div>
+<!-- حساب نسبة الخصم -->
+<div class="container">
+<h2>حساب نسبة الخصم</h2>
+<table>
+<tr>
+<td class="yellow">السعر قبل الخصم</td>
+<td><input id="price2" oninput="calculatePercentage()" type="number"/></td>
+</tr>
+<tr>
+<td class="red">نسبة الخصم</td>
+<td><input id="discount2" readonly="" type="text"/></td>
+</tr>
+<tr>
+<td class="blue">السعر بعد الخصم</td>
+<td><input id="priceAfter2" oninput="calculatePercentage()" type="number"/></td>
+</tr>
+</table>
+</div>
+</div>
+<!-- خيارات المنتج -->
+<div class="product-options">
+<label class="red padded" for="optionSelector"><b>Choose Product Option:</b></label>
+<select id="optionSelector" onchange="showOptionContent()">
+<option value="">-- Select --</option>
+<option value="choice1Option">1st Choice</option>
+<option value="choice2Option">2nd Choice</option>
+<option value="choice3Option">3rd Choice</option>
+<option value="sizeOption">Your Choice Of Size</option>
+<option value="drinkOption">Your Choice Of Drink</option>
+<option value="weightOption">Your Choice Of Weight</option>
+<option value="sauceOption1">Your Choice Of Sauce</option>
+<option value="cookingMethodOption">Cooking Method</option>
+<option value="saladOption">Your Choice Of Salad</option>
+<option value="breadOption1">Bread Type</option>
+<option value="sauceOption2">Your Choice Of Sauce</option>
+<option value="friesOption">Your Choice of Fries</option>
+<option value="weightOption2">Your Choice of Weight</option>
+<option value="mojitoOption">Your Choice of mojito</option>
+<option value="scoop1Option">Choice of 1st Scoop</option>
+<option value="scoop2Option">Choice of 2nd Scoop</option>
+<option value="breadOption2">Bread Type</option>
+<option value="chickenSizeOption">Chicken Size</option>
+<option value="milkOption">Milk Type</option>
+<option value="extraOption">Extra</option>
+<option value="addOnsOption1">Add On's</option>
+<option value="addScoopOption">Add Scoop</option>
+<option value="addOnsOption2">Add On's</option>
+<option value="fishOption">Choose Your Fish</option>
+</select>
+<div class="option-content" id="sizeOption">
+<table>
+<tr>
+<td>1</td><td>ShortCode</td><td>Your Choice Of Size</td><td> </td><td>Y</td>
+<td>Small</td><td>0</td><td class="bold">Medium</td><td>0</td><td>Large</td><td>0</td>
+</tr>
+</table>
+<button onclick="copyTableContent(this)" style="margin-top:10px; padding:5px 10px; font-size:12px; border-radius:6px; cursor:pointer;">📋 Copy</button></div>
+<div class="option-content" id="drinkOption">
+<table>
+<tr>
+<td>1</td><td>ShortCode</td><td>Your Choice Of Drink</td><td> </td><td>1</td><td>Y</td>
+<td>Matrix Cola</td><td>0</td><td>Matrix Orange</td><td>0</td><td>Matrix Up</td><td>0</td>
+<td>Matrix Cola Zero</td><td>0</td><td>Matrix Up Zero</td><td>0</td>
+</tr>
+</table>
+<button onclick="copyTableContent(this)" style="margin-top:10px; padding:5px 10px; font-size:12px; border-radius:6px; cursor:pointer;">📋 Copy</button></div>
+<div class="option-content" id="weightOption">
+<table>
+<tr>
+<td>1</td><td>ShortCode</td><td>Your Choice Of Weight</td><td> </td><td>1</td><td>Y</td>
+<td>250g</td><td>0</td><td>500g</td><td>0</td><td>750g</td><td>0</td><td>1kg</td><td>0</td>
+</tr>
+</table>
+<button onclick="copyTableContent(this)" style="margin-top:10px; padding:5px 10px; font-size:12px; border-radius:6px; cursor:pointer;">📋 Copy</button></div>
+<div class="option-content" id="choice1Option">
+<table>
+<tr>
+<td>1</td><td>ShortCode</td><td>1st Choice</td><td> </td><td>1</td><td>Y</td>
+<td>Papa Pizza</td><td>0</td><td>BBQ Pizza</td><td>0</td><td>Alfredo Pizza</td><td>0</td>
+<td>Vegetables Pizza</td><td>0</td><td>Pepperoni Pizza</td><td>0</td><td>Hotdog Pizza</td><td>0</td>
+<td>Mushroom Pizza</td><td>0</td><td>Turkey Pizza</td><td>0</td><td>Margherita Pizza</td><td>0</td>
+</tr>
+</table>
+<button onclick="copyTableContent(this)" style="margin-top:10px; padding:5px 10px; font-size:12px; border-radius:6px; cursor:pointer;">📋 Copy</button>
+</div>
+<div class="option-content" id="choice2Option">
+<table>
+<tr>
+<td>1</td><td>ShortCode</td><td>2nd Choice</td><td> </td><td>1</td><td>Y</td>
+<td>Papa Pizza</td><td>0</td><td>BBQ Pizza</td><td>0</td><td>Alfredo Pizza</td><td>0</td>
+<td>Vegetables Pizza</td><td>0</td><td>Pepperoni Pizza</td><td>0</td><td>Hotdog Pizza</td><td>0</td>
+<td>Mushroom Pizza</td><td>0</td><td>Turkey Pizza</td><td>0</td><td>Margherita Pizza</td><td>0</td>
+</tr>
+</table>
+<button onclick="copyTableContent(this)" style="margin-top:10px; padding:5px 10px; font-size:12px; border-radius:6px; cursor:pointer;">📋 Copy</button>
+</div>
+<div class="option-content" id="choice3Option">
+<table>
+<tr>
+<td>1</td><td>ShortCode</td><td>3rd Choice</td><td> </td><td>1</td><td>Y</td>
+<td>Papa Pizza</td><td>0</td><td>BBQ Pizza</td><td>0</td><td>Alfredo Pizza</td><td>0</td>
+<td>Vegetables Pizza</td><td>0</td><td>Pepperoni Pizza</td><td>0</td><td>Hotdog Pizza</td><td>0</td>
+<td>Mushroom Pizza</td><td>0</td><td>Turkey Pizza</td><td>0</td><td>Margherita Pizza</td><td>0</td>
+</tr>
+</table>
+<button onclick="copyTableContent(this)" style="margin-top:10px; padding:5px 10px; font-size:12px; border-radius:6px; cursor:pointer;">📋 Copy</button>
+</div>
+<div class="option-content" id="fishOption">
+<table>
+<tr>
+<td>1</td><td>ShortCode</td><td>Choose Your Fish</td><td> </td><td>1</td><td>Y</td>
+<td>Dennis Fish</td><td>0</td><td>Hamour Fish</td><td>0</td><td>Shaour Fish</td><td>0</td><td>Lot Fish</td><td>0</td>
+</tr>
+</table>
+<button onclick="copyTableContent(this)" style="margin-top:10px; padding:5px 10px; font-size:12px; border-radius:6px; cursor:pointer;">📋 Copy</button>
+</div>
+<div class="option-content" id="sauceOption1">
+<table>
+<tr><td>1</td><td>ShortCode</td><td>Your Choice Of Sauce</td><td> </td><td>1</td><td>Y</td><td>BBQ</td><td>0</td><td>Ranch Sauce</td><td>0</td><td>Jalapeno</td><td>0</td><td>Hot Sauce</td><td>0</td><td>Smokey Sauce</td><td>0</td><td>Cheddar Sauce</td><td>0</td><td>Garlic</td><td>0</td></tr>
+</table>
+<button onclick="copyTableContent(this)" style="margin-top:10px; padding:5px 10px; font-size:12px; border-radius:6px; cursor:pointer;">📋 Copy</button>
+</div>
+<div class="option-content" id="cookingMethodOption">
+<table>
+<tr><td>1</td><td>ShortCode</td><td>Cooking Method</td><td> </td><td>1</td><td>Y</td><td>Boiled</td><td>0</td><td>Grilled</td><td>0</td></tr>
+</table>
+<button onclick="copyTableContent(this)" style="margin-top:10px; padding:5px 10px; font-size:12px; border-radius:6px; cursor:pointer;">📋 Copy</button>
+</div>
+<div class="option-content" id="saladOption">
+<table>
+<tr><td>1</td><td>ShortCode</td><td>Your Choice Of Salad</td><td> </td><td>1</td><td>Y</td><td>Arabic Salad</td><td>0</td><td>Tahini Salad</td><td>0</td><td>Without Salad</td><td>0</td></tr>
+</table>
+<button onclick="copyTableContent(this)" style="margin-top:10px; padding:5px 10px; font-size:12px; border-radius:6px; cursor:pointer;">📋 Copy</button>
+</div>
+<div class="option-content" id="breadOption1">
+<table>
+<tr><td>1</td><td>ShortCode</td><td>Bread Type</td><td> </td><td>1</td><td>Y</td><td>Regular bread</td><td>0</td><td>Ka'ak bread</td><td>0</td><td>Shrak Bread</td><td>0</td></tr>
+</table>
+<button onclick="copyTableContent(this)" style="margin-top:10px; padding:5px 10px; font-size:12px; border-radius:6px; cursor:pointer;">📋 Copy</button>
+</div>
+<div class="option-content" id="sauceOption2">
+<table>
+<tr><td>1</td><td>ShortCode</td><td>Your Choice Of Sauce</td><td> </td><td>1</td><td>Y</td><td>Cocktail Sauce</td><td>0</td><td>Honey Mustard</td><td>0</td><td>Dynamite Sauce</td><td>0</td><td>(Buffalo + Ranch)</td><td>0</td><td>Sweet Chili</td><td>0</td><td>BBQ</td><td>0</td></tr>
+</table>
+<button onclick="copyTableContent(this)" style="margin-top:10px; padding:5px 10px; font-size:12px; border-radius:6px; cursor:pointer;">📋 Copy</button>
+</div>
+<div class="option-content" id="friesOption">
+<table>
+<tr><td>1</td><td>ShortCode</td><td>Your Choice of Fries</td><td> </td><td>1</td><td>Y</td><td>French Fries</td><td>0</td><td>Wedges Fries</td><td>0</td><td>Curly Fries</td><td>0</td></tr>
+</table>
+<button onclick="copyTableContent(this)" style="margin-top:10px; padding:5px 10px; font-size:12px; border-radius:6px; cursor:pointer;">📋 Copy</button>
+</div>
+<div class="option-content" id="weightOption2">
+<table>
+<tr><td>1</td><td>ShortCode</td><td>Your Choice of Weight</td><td> </td><td>1</td><td>Y</td><td>90g</td><td>0</td><td>180g</td><td>0</td></tr>
+</table>
+<button onclick="copyTableContent(this)" style="margin-top:10px; padding:5px 10px; font-size:12px; border-radius:6px; cursor:pointer;">📋 Copy</button>
+</div>
+<div class="option-content" id="mojitoOption">
+<table>
+<tr><td>1</td><td>ShortCode</td><td>Your Choice of mojito</td><td> </td><td>1</td><td>Y</td><td>Xl</td><td>0</td><td>Boom Boom</td><td>0</td><td>Code Red</td><td>0</td></tr>
+</table>
+<button onclick="copyTableContent(this)" style="margin-top:10px; padding:5px 10px; font-size:12px; border-radius:6px; cursor:pointer;">📋 Copy</button>
+</div>
+<div class="option-content" id="scoop1Option">
+<table>
+<tr><td>1</td><td>ShortCode</td><td>Choice of 1st Scoop</td><td> </td><td>1</td><td>Y</td><td>Cream</td><td>0</td><td>Chocolate</td><td>0</td><td>Custard</td><td>0</td><td>Peanut Butter</td><td>0</td><td>Latte</td><td>0</td></tr>
+</table>
+<button onclick="copyTableContent(this)" style="margin-top:10px; padding:5px 10px; font-size:12px; border-radius:6px; cursor:pointer;">📋 Copy</button>
+</div>
+<div class="option-content" id="scoop2Option">
+<table>
+<tr><td>1</td><td>ShortCode</td><td>Choice of 2nd Scoop</td><td> </td><td>1</td><td>Y</td><td>Cream</td><td>0</td><td>Chocolate</td><td>0</td><td>Custard</td><td>0</td><td>Peanut Butter</td><td>0</td><td>Latte</td><td>0</td></tr>
+</table>
+<button onclick="copyTableContent(this)" style="margin-top:10px; padding:5px 10px; font-size:12px; border-radius:6px; cursor:pointer;">📋 Copy</button>
+</div>
+<div class="option-content" id="breadOption2">
+<table>
+<tr><td>1</td><td>ShortCode</td><td>Bread Type</td><td> </td><td>1</td><td>Y</td><td>Regular bread</td><td>0</td><td>Tortilla Bread</td><td>0</td><td>Turkish bread</td><td>0</td><td>Hamam bread</td><td>0</td><td>French bread</td><td>0</td></tr>
+</table>
+<button onclick="copyTableContent(this)" style="margin-top:10px; padding:5px 10px; font-size:12px; border-radius:6px; cursor:pointer;">📋 Copy</button>
+</div>
+<div class="option-content" id="chickenSizeOption">
+<table>
+<tr><td>1</td><td>ShortCode</td><td>Chicken Size</td><td> </td><td>1</td><td>Y</td><td>Half Chicken</td><td>0</td><td>Whole Chicken</td><td>0</td><td>One and a half Chicken</td><td>0</td><td>2 Chickens</td><td>0</td></tr>
+</table>
+<button onclick="copyTableContent(this)" style="margin-top:10px; padding:5px 10px; font-size:12px; border-radius:6px; cursor:pointer;">📋 Copy</button>
+</div>
+<div class="option-content" id="milkOption">
+<table>
+<tr><td>1</td><td>ShortCode</td><td>Milk Type</td><td> </td><td>1</td><td>Y</td><td>Regular Milk</td><td>0</td><td>Lactose Free Milk</td><td>0</td><td>Soy Milk</td><td>0</td><td>Almond Milk</td><td>0</td></tr>
+</table>
+<button onclick="copyTableContent(this)" style="margin-top:10px; padding:5px 10px; font-size:12px; border-radius:6px; cursor:pointer;">📋 Copy</button>
+</div>
+<div class="option-content" id="extraOption">
+<table>
+<tr><td>1</td><td>ShortCode</td><td>Extra</td><td> </td><td>1</td><td>Y</td><td>Espresso Shot</td><td>0</td><td>Decaf</td><td>0</td></tr>
+</table>
+<button onclick="copyTableContent(this)" style="margin-top:10px; padding:5px 10px; font-size:12px; border-radius:6px; cursor:pointer;">📋 Copy</button>
+</div>
+<div class="option-content" id="addOnsOption1">
+<table>
+<tr><td>1</td><td>ShortCode</td><td>Add On's</td><td> </td><td>1</td><td>Y</td><td>Sour Sauce (Tatabila)</td><td>0</td><td>Hot Sauce (Shatta)</td><td>0</td><td>French fries</td><td>0</td></tr>
+</table>
+<button onclick="copyTableContent(this)" style="margin-top:10px; padding:5px 10px; font-size:12px; border-radius:6px; cursor:pointer;">📋 Copy</button>
+</div>
+<div class="option-content" id="addScoopOption">
+<table>
+<tr><td>1</td><td>ShortCode</td><td>Add Scoop</td><td> </td><td>1</td><td>Y</td><td>Vanilla</td><td>0</td><td>Chocolate</td><td>0</td><td>Double Chocolate</td><td>0</td><td>Strawberry</td><td>0</td><td>BlueBerry</td><td>0</td><td>Lemon</td><td>0</td><td>Mango</td><td>0</td><td>Kiwi</td><td>0</td><td>Croquant</td><td>0</td><td>Watermelon</td><td>0</td><td>Raspberry</td><td>0</td><td>Banana</td><td>0</td><td>Pinacolada</td><td>0</td><td>Red Velvet</td><td>0</td><td>Hami Melon</td><td>0</td><td>Lychee</td><td>0</td></tr>
+</table>
+<button onclick="copyTableContent(this)" style="margin-top:10px; padding:5px 10px; font-size:12px; border-radius:6px; cursor:pointer;">📋 Copy</button>
+</div>
+<div class="option-content" id="addOnsOption2">
+<table>
+<tr><td>1</td><td>ShortCode</td><td>Add On's</td><td> </td><td>1</td><td>Y</td><td>Pistachio</td><td>0</td><td>Lotus</td><td>0</td><td>Chocolate Chips</td><td>0</td><td>Coconut</td><td>0</td><td>Almonds</td><td>0</td><td>Walnut</td><td>0</td><td>Chocolate Ball</td><td>0</td><td>Rainbow</td><td>0</td></tr>
+</table>
+<button onclick="copyTableContent(this)" style="margin-top:10px; padding:5px 10px; font-size:12px; border-radius:6px; cursor:pointer;">📋 Copy</button>
+</div>
+
+
+<script>
+    // حساب النسبة الأولى والثانية
+    function calculateRatio() {
+      let targetPrice = parseFloat(document.getElementById('targetPrice').value);
+      let amount1 = parseFloat(document.getElementById('amount1').value);
+      let percent1 = '';
+      let amount2 = '';
+      let percent2 = '';
+
+      if (!isNaN(targetPrice) && !isNaN(amount1) && targetPrice > 0) {
+        percent1 = (amount1 / targetPrice) * 100;
+        percent1 = percent1.toFixed(2) + '%';
+
+        amount2 = targetPrice - amount1;
+        amount2 = amount2.toFixed(2);
+
+        if (!isNaN(amount2) && amount2 >= 0) {
+          percent2 = (amount2 / targetPrice) * 100;
+          percent2 = percent2.toFixed(2) + '%';
+        }
+      }
+
+      document.getElementById('percent1').textContent = percent1;
+      document.getElementById('amount2').value = amount2;
+      document.getElementById('percent2').textContent = percent2;
+    }
+
+    // حساب السعر بعد الخصم 1
+    function calculateDiscount1() {
+      let price1 = parseFloat(document.getElementById('price1').value);
+      let discount1 = parseFloat(document.getElementById('discount1').value);
+      let result1 = '';
+
+      if (!isNaN(price1) && !isNaN(discount1)) {
+        result1 = price1 - (price1 * discount1 / 100);
+        result1 = result1.toFixed(2);
+      }
+
+      document.getElementById('result1').value = result1;
+    }
+
+    // حساب نسبة الخصم 2
+    function calculatePercentage() {
+      let price2 = parseFloat(document.getElementById('price2').value);
+      let priceAfter2 = parseFloat(document.getElementById('priceAfter2').value);
+      let discount2 = '';
+
+      if (!isNaN(price2) && !isNaN(priceAfter2) && price2 > 0) {
+        discount2 = ((price2 - priceAfter2) / price2) * 100;
+        discount2 = discount2.toFixed(2) + '%';
+      }
+
+      document.getElementById('discount2').value = discount2;
+    }
+
+    // إظهار محتوى اختيار المنتج
+    function showOptionContent() {
+      let selector = document.getElementById('optionSelector');
+      let value = selector.value;
+
+      document.querySelectorAll('.option-content').forEach(el => el.style.display = 'none');
+
+      if (value) {
+        document.getElementById(value).style.display = 'block';
+      }
+    }
+
+    // تبديل عرض جدول sale price
+    function toggleSaleTable() {
+      let table = document.getElementById('saleTable');
+      if (table.style.display === 'none' || table.style.display === '') {
+        table.style.display = 'block';
+      } else {
+        table.style.display = 'none';
+      }
+    }
+
+    // تحويل النص إلى Proper Case بدون تحويل أحرف الجر لأحرف كبيرة
+  function toProperCase() {
+    const input = document.getElementById('inputText').value;
+
+    // قائمة أحرف الجر والكلمات المستثناة من التحويل
+    const minorWords = [
+      'on', 'of', 'in', 'at', 'by', 'to', 'for', 'with',
+      'a', 'an', 'the', 'and', 'but', 'or', 'nor', 'from', 'up'
+    ];
+
+    // تحويل النص إلى lowercase وتفصيله لكلمات
+    const words = input.toLowerCase().split(' ');
+
+    // تنفيذ التحويل
+    const result = words.map(word => {
+      return minorWords.includes(word)
+        ? word
+        : word.charAt(0).toUpperCase() + word.slice(1);
+    });
+
+    // إعادة النص إلى الـ textarea
+    document.getElementById('inputText').value = result.join(' ');
+  }
+
+  
+function copyTableContent(button) {
+  const table = button.previousElementSibling;
+  let text = '';
+  for (let row of table.rows) {
+    let rowText = [];
+    for (let cell of row.cells) {
+      rowText.push(cell.textContent.trim());
+    }
+    text += rowText.join('\t') + '\n';
+  }
+  navigator.clipboard.writeText(text).then(() => {
+    button.textContent = "✅ Copied!";
+    setTimeout(() => {
+      button.textContent = "📋 Copy";
+    }, 1500);
+  });
+}
+
+</script>
+
+<!-- مربع لإدخال نسبة الخصم مع ظهور الجمل -->
+<div class="proper-tools-row" style="margin-top: 40px;">
+  <div class="proper-case-tool" style="min-width: 400px;">
+    <h2>ادخل نسبة الخصم</h2>
+    <input id="discountNumber" type="number" placeholder="أدخل الرقم مثل 25" oninput="updateDiscountMessages()" />
+    <div id="discountMessages" style="margin-top: 15px; font-size: 14px; line-height: 1.8; color: white;">
+      <div id="arabicMessage"></div>
+      <div id="englishMessage"></div>
+    </div>
+  </div>
+
+  <!-- أداة Capitalize (بدون زر، يتم التنفيذ بالضغط على Enter) -->
+<div class="proper-case-tool">
+  <h2>Capitalize Text</h2>
+  <textarea id="inputText" placeholder="Enter text here" rows="2"
+    onkeydown="if(event.key==='Enter'){event.preventDefault();toProperCase();}">
+  </textarea>
+</div>
+
+<script>
+  function updateDiscountMessages() {
+    const val = document.getElementById('discountNumber').value.trim();
+    const arabic = document.getElementById('arabicMessage');
+    const english = document.getElementById('englishMessage');
+
+    if (val === '') {
+  document.getElementById('discountMessages').innerHTML = '';
+  return;
+}
+
+    // الجمل مع متغير النسبة
+    const arabicTemplates = [
+      `خصم ${val}% على جميع اصناف`,
+      `خصم ${val}% على اصناف محددة`,
+      `خصم ${val}% على المنتجات`,
+      `خصم ${val}% على الأصناف`,
+      `استمتع بخصم ${val}%`,
+      `خصم يصل إلى ${val}% على أصناف محددة`,
+      `خصم يصل إلى ${val}% على جميع الاصناف`,
+      `خصم يصل الى ${val}%`,
+      `خصومات حصرية`,
+      `خصم ${val}% على جميع الوجبات`
+    ];
+
+    const englishTemplates = [
+      `${val}% Discount on all Items`,
+      `${val}% Discount on Selected Items`,
+      `${val}% Discount on Products`,
+      `${val}% Discount on Items`,
+      `Enjoy ${val}% Discount`,
+      `Up to ${val}% Discount on Selected Items`,
+      `Up to ${val}% Discount on All Items`,
+      `Up to ${val}% Discount`,
+      `Exclusive Discounts`,
+      `${val}% Discount on All Meals`
+    ];
+
+    const combined = arabicTemplates.map((line, i) => {
+      const arabic = line;
+      const english = englishTemplates[i];
+      return `<div style="display: flex; justify-content: space-between; gap: 10px; align-items: center;">
+        <div style="flex:1; display:flex; justify-content: flex-end; gap:5px;">
+          <button onclick="navigator.clipboard.writeText('${arabic}')" style="padding: 2px 6px; font-size: 12px; cursor: pointer;">📋</button>
+          <span>${arabic}</span>
+        </div>
+        <div style="flex:1; display:flex; justify-content: flex-start; gap:5px;">
+          <span>${english}</span>
+          <button onclick="navigator.clipboard.writeText('${english}')" style="padding: 2px 6px; font-size: 12px; cursor: pointer;">📋</button>
+        </div>
+      </div>`;
+    }).join('');
+    document.getElementById('discountMessages').innerHTML = combined;
+  }
+</script>
+
+</body>
+</html>
