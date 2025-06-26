@@ -2,7 +2,7 @@
 
 <html lang="ar">
 <head>
-<link rel="shortcut icon" href="1.jpg" type="image/x-icon">
+<link href="1.jpg" rel="shortcut icon" type="image/x-icon"/>
 <meta charset="utf-8"/>
 <title>calculater</title>
 <style>
@@ -148,7 +148,29 @@
       font-size: 14px;
       font-family: Arial, sans-serif;
     }
-  </style>
+  
+.form-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 60px;
+}
+.form-group label {
+  font-size: 10px;
+  margin-bottom: 2px;
+}
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 3px;
+  font-size: 12px;
+  border: 1px solid #444;
+  border-radius: 4px;
+  background-color: #111;
+  color: #fff;
+  text-align: center;
+}
+</style>
 </head>
 <body>
 <div class="top-row">
@@ -411,8 +433,6 @@
 </table>
 <button onclick="copyTableContent(this)" style="margin-top:10px; padding:5px 10px; font-size:12px; border-radius:6px; cursor:pointer;">📋 Copy</button>
 </div>
-
-
 <script>
     // حساب النسبة الأولى والثانية
     function calculateRatio() {
@@ -534,26 +554,22 @@ function copyTableContent(button) {
 }
 
 </script>
-
 <!-- مربع لإدخال نسبة الخصم مع ظهور الجمل -->
 <div class="proper-tools-row" style="margin-top: 40px;">
-  <div class="proper-case-tool" style="min-width: 400px;">
-    <h2>ادخل نسبة الخصم</h2>
-    <input id="discountNumber" type="number" placeholder="أدخل الرقم مثل 25" oninput="updateDiscountMessages()" />
-    <div id="discountMessages" style="margin-top: 15px; font-size: 14px; line-height: 1.8; color: white;">
-      <div id="arabicMessage"></div>
-      <div id="englishMessage"></div>
-    </div>
-  </div>
-
-  <!-- أداة Capitalize (بدون زر، يتم التنفيذ بالضغط على Enter) -->
+<div class="proper-case-tool" style="min-width: 400px;">
+<h2>ادخل نسبة الخصم</h2>
+<input id="discountNumber" oninput="updateDiscountMessages()" placeholder="أدخل الرقم مثل 25" type="number"/>
+<div id="discountMessages" style="margin-top: 15px; font-size: 14px; line-height: 1.8; color: white;">
+<div id="arabicMessage"></div>
+<div id="englishMessage"></div>
+</div>
+</div>
+<!-- أداة Capitalize (بدون زر، يتم التنفيذ بالضغط على Enter) -->
 <div class="proper-case-tool">
-  <h2>Capitalize Text</h2>
-  <textarea id="inputText" placeholder="Enter text here" rows="2"
-    onkeydown="if(event.key==='Enter'){event.preventDefault();toProperCase();}">
+<h2>Capitalize Text</h2>
+<textarea id="inputText" onkeydown="if(event.key==='Enter'){event.preventDefault();toProperCase();}" placeholder="Enter text here" rows="2">
   </textarea>
 </div>
-
 <script>
   function updateDiscountMessages() {
     const val = document.getElementById('discountNumber').value.trim();
@@ -567,7 +583,7 @@ function copyTableContent(button) {
 
     // الجمل مع متغير النسبة
     const arabicTemplates = [
-      `خصم ${val}% على جميع اصناف`,
+      `خصم ${val}% على جميع الاصناف`,
       `خصم ${val}% على اصناف محددة`,
       `خصم ${val}% على المنتجات`,
       `خصم ${val}% على الأصناف`,
@@ -609,6 +625,124 @@ function copyTableContent(button) {
     document.getElementById('discountMessages').innerHTML = combined;
   }
 </script>
+<div class="proper-case-tool" style="min-width: 400px; background-color: #111; padding: 10px; border-radius: 12px; color: white;"><h2>Sku</h2><div class="input-row" style="display: flex; justify-content: center; align-items: flex-end; gap: 10px; flex-wrap: wrap; margin-top: 20px;">
+  <div class="form-group">
+    <label style="background-color: orange; color: black; padding: 2px 6px; border-radius: 4px;">Number</label>
+    <select id="numberPart" onchange="generateCode()">
+      <option value="15">15</option>
+      <option value="84">84</option>
+      <option value="82">82</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label style="background-color: yellow; color: black; padding: 2px 6px; border-radius: 4px;">First 2 Letter</label>
+    <input id="customLetters" maxlength="2" placeholder="YA" type="text" oninput="this.value = this.value.toUpperCase(); generateCode();"/>
+  </div>
+  <div class="form-group">
+    <label style="background-color: red; color: white; padding: 2px 6px; border-radius: 4px;">Last 2 Letter</label>
+    <input id="extraLetters" maxlength="2" placeholder="HO" type="text" oninput="this.value = this.value.toUpperCase(); generateCode();"/>
+  </div>
+  <div class="form-group">
+    <label style="background-color: green; color: white; padding: 2px 6px; border-radius: 4px;">Id Item</label>
+    <input id="finalNumber" maxlength="2" placeholder="15" type="text" oninput="generateCode();"/>
+  </div>
+  <div style="display: flex; align-items: center; gap: 8px; margin-top: 10px;">
+  <div id="result" style="font-size: 18px; font-weight: bold; color: #0f0;"></div>
+  <button id="copyBtn" onclick="copyResult()" style="padding: 4px 8px; font-size: 14px; border-radius: 6px; cursor: pointer; display: none;">📋</button>
+</div>
+</div>
+</div></div></div></div></div><script>
+function getExcelDate() {
+  const startDate = new Date(1899, 11, 30);
+  const today = new Date();
+  const diffTime = today - startDate;
+  return Math.floor(diffTime / (1000 * 60 * 60 * 24));
+}
 
-</body>
+function generateCode() {
+  const fixedPart = "MT";
+  const numberPart = document.getElementById("numberPart").value;
+  const customLetters = document.getElementById("customLetters").value.toUpperCase();
+  const extraLetters = document.getElementById("extraLetters").value.toUpperCase();
+  const finalNumber = document.getElementById("finalNumber").value;
+  const excelDate = getExcelDate();
+
+  if (customLetters.length !== 2 || extraLetters.length !== 2 || finalNumber.length === 0) {
+    document.getElementById("result").innerText = "";
+    return;
+  }
+
+  const fullCode = `${fixedPart}${numberPart}${customLetters}${extraLetters}${excelDate}${finalNumber}`;
+  document.getElementById("result").innerText = fullCode;
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("numberPart").addEventListener("change", generateCode);
+  document.getElementById("customLetters").addEventListener("input", generateCode);
+  document.getElementById("extraLetters").addEventListener("input", generateCode);
+  document.getElementById("finalNumber").addEventListener("input", generateCode);
+  generateCode();
+});
+</script><script>
+function generateCode() {
+  const fixedPart = "MT";
+  const numberPart = document.getElementById("numberPart").value;
+  const customLetters = document.getElementById("customLetters").value.toUpperCase();
+  const extraLetters = document.getElementById("extraLetters").value.toUpperCase();
+  const finalNumber = document.getElementById("finalNumber").value;
+  const excelDate = getExcelDate();
+
+  const resultElement = document.getElementById("result");
+  const copyBtn = document.getElementById("copyBtn");
+
+  if (customLetters.length === 2 && extraLetters.length === 2 && finalNumber.length > 0) {
+    const fullCode = `${fixedPart}${numberPart}${customLetters}${extraLetters}${excelDate}${finalNumber}`;
+    resultElement.innerText = fullCode;
+    resultElement.style.display = "inline-block";
+    copyBtn.style.display = "inline-block";
+  } else {
+    resultElement.innerText = "";
+    resultElement.style.display = "none";
+    copyBtn.style.display = "none";
+  }
+}
+
+function copyResult() {
+  const resultText = document.getElementById("result").innerText;
+  if (resultText) {
+    navigator.clipboard.writeText(resultText).then(() => {
+      const btn = document.getElementById("copyBtn");
+      btn.innerText = "✅";
+      setTimeout(() => {
+        btn.innerText = "📋";
+      }, 1500);
+    });
+  }
+}
+
+function getExcelDate() {
+  const startDate = new Date(1899, 11, 30);
+  const today = new Date();
+  const diffTime = today - startDate;
+  return Math.floor(diffTime / (1000 * 60 * 60 * 24));
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("numberPart").addEventListener("change", generateCode);
+  document.getElementById("customLetters").addEventListener("input", generateCode);
+  document.getElementById("extraLetters").addEventListener("input", generateCode);
+  document.getElementById("finalNumber").addEventListener("input", generateCode);
+
+  // إخفاء النتيجة في البداية
+  document.getElementById("result").style.display = "none";
+});
+</script></body>
 </html>
+
+
+
+
+
+
+
+
