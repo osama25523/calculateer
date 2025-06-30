@@ -82,21 +82,24 @@
   <div class="container">
     <!-- Group 1 -->
     <div class="box">
-      <h3><img class="icon" src="https://cdn-icons-png.flaticon.com/512/3214/3214491.png" /> Group 1</h3>
+      <h3>Group 1</h3>
       <textarea id="group1" placeholder="Enter numbers" oninput="updateAllResults()"></textarea>
     </div>
 
     <!-- Group 2 -->
     <div class="box">
-      <h3><img class="icon" src="https://cdn-icons-png.flaticon.com/512/1041/1041916.png" /> Group 2</h3>
+      <h3>Group 2</h3>
       <textarea id="group2" placeholder="Enter numbers" oninput="updateAllResults()"></textarea>
-      <button onclick="copyToClipboard('result1')">Copy</button>
+      <button onclick="copyToClipboard('result1')" title="Copy">
+  📋
+</button>
+
       <textarea id="result1" readonly placeholder="Result (G2 - G1)"></textarea>
     </div>
 
     <!-- Group 3 -->
     <div class="box">
-      <h3><img class="icon" src="https://cdn-icons-png.flaticon.com/512/1041/1041894.png" /> Group 3</h3>
+      <h3>Group 3</h3>
       <textarea id="group3" placeholder="Enter numbers" oninput="updateAllResults()"></textarea>
       <button onclick="copyToClipboard('result2')">Copy</button>
       <textarea id="result2" readonly placeholder="Result (G3 - G1)"></textarea>
