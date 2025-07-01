@@ -2,7 +2,7 @@
 <html lang="ar">
 <head>
   <meta charset="UTF-8">
-  <title>تنزيل الصور وضغطها</title>
+  <title>تنزيل الصور وتحويلها إلى JPG وضغطها</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.0/jszip.min.js"></script>
 </head>
 <body style="direction: rtl; font-family: Arial; padding: 20px">
@@ -10,11 +10,31 @@
   <h2>أدخل روابط الصور (رابط في كل سطر):</h2>
   <textarea id="links" rows="10" cols="50" placeholder="https://example.com/image1.jpg"></textarea><br><br>
 
-  <button onclick="downloadAndZip()">تحميل الصور كملف ZIP</button>
+  <button onclick="downloadAndZip()">تحميل الصور كملف ZIP بصيغة JPG</button>
 
   <p id="status" style="color: green; margin-top: 10px;"></p>
 
   <script>
+    async function fetchAndConvertToJPG(url) {
+      return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.crossOrigin = 'anonymous';
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          canvas.width = img.width;
+          canvas.height = img.height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0);
+          canvas.toBlob(blob => {
+            if (blob) resolve(blob);
+            else reject(new Error('فشل التحويل إلى JPG'));
+          }, 'image/jpeg', 0.9); // الجودة 90%
+        };
+        img.onerror = () => reject(new Error('فشل تحميل الصورة'));
+        img.src = url;
+      });
+    }
+
     async function downloadAndZip() {
       const textarea = document.getElementById('links');
       const status = document.getElementById('status');
@@ -24,20 +44,18 @@
         return;
       }
 
-      status.textContent = 'جاري تحميل الصور...';
+      status.textContent = 'جاري تحميل وتحويل الصور...';
 
       const zip = new JSZip();
       let count = 1;
 
       for (let url of urls) {
         try {
-          const response = await fetch(url);
-          const blob = await response.blob();
-          const ext = url.split('.').pop().split('?')[0]; // استخراج الامتداد
-          zip.file(`${count}.${ext}`, blob);
+          const blob = await fetchAndConvertToJPG(url);
+          zip.file(`${count}.jpg`, blob);
           count++;
         } catch (error) {
-          console.error(`فشل تحميل: ${url}`, error);
+          console.error(`فشل معالجة: ${url}`, error);
         }
       }
 
@@ -46,10 +64,10 @@
       const zipFile = await zip.generateAsync({ type: "blob" });
       const link = document.createElement("a");
       link.href = URL.createObjectURL(zipFile);
-      link.download = "images.zip";
+      link.download = "images_jpg.zip";
       link.click();
 
-      status.textContent = 'تم إنشاء ملف ZIP بنجاح!';
+      status.textContent = 'تم إنشاء ملف ZIP بصيغة JPG بنجاح!';
     }
   </script>
 </body>
