@@ -2,15 +2,16 @@
 <html lang="ar">
 <head>
   <meta charset="UTF-8">
-  <title>تنزيل الصور وضغطها</title>
+  <title>Pics Extractor</title>
+  <a href="index.html">Discount & Sale Price </a>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.0/jszip.min.js"></script>
 </head>
 <body style="direction: rtl; font-family: Arial; padding: 20px">
 
-  <h2>أدخل روابط الصور (رابط في كل سطر):</h2>
+  <h2>Pice Links</h2>
   <textarea id="links" rows="10" cols="50" placeholder="https://example.com/image1.jpg"></textarea><br><br>
 
-  <button onclick="downloadAndZip()">تحميل الصور كملف ZIP</button>
+  <button onclick="downloadAndZip()">Download</button>
 
   <p id="status" style="color: green; margin-top: 10px;"></p>
 
@@ -20,11 +21,11 @@
       const status = document.getElementById('status');
       const urls = textarea.value.trim().split('\n').filter(Boolean);
       if (urls.length === 0) {
-        status.textContent = 'يرجى إدخال روابط الصور أولاً.';
+        status.textContent = 'add Links';
         return;
       }
 
-      status.textContent = 'جاري تحميل الصور...';
+      status.textContent = ' please Wait...';
 
       const zip = new JSZip();
       let count = 1;
@@ -37,11 +38,11 @@
           zip.file(`${count}.${ext}`, blob);
           count++;
         } catch (error) {
-          console.error(`فشل تحميل: ${url}`, error);
+          console.error(`Failed: ${url}`, error);
         }
       }
 
-      status.textContent = 'جاري ضغط الصور...';
+      status.textContent = processing...';
 
       const zipFile = await zip.generateAsync({ type: "blob" });
       const link = document.createElement("a");
@@ -49,7 +50,7 @@
       link.download = "images.zip";
       link.click();
 
-      status.textContent = 'تم إنشاء ملف ZIP بنجاح!';
+      status.textContent = 'Done!';
     }
   </script>
 </body>
