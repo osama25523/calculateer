@@ -49,6 +49,7 @@
     .yellow { background-color: yellow; color: black; border-radius: 10px 0 0 10px; padding: 10px; }
     .red { background-color: red; color: white; border-radius: 10px 0 0 10px; padding: 10px; }
     .blue { background-color: #00aaff; color: white; border-radius: 10px 0 0 10px; padding: 10px; }
+    .green { background-color: green; color: white; border-radius: 10px 0 0 10px; padding: 10px; }
 
     .top-row {
       display: flex;
@@ -203,7 +204,7 @@
 <div class="percent-display" id="percent1"></div>
 </div>
 <div style="text-align:center;">
-<div class="box blue" style="margin-bottom:10px;">Percentage by Mythings</div>
+<div class="box green" style="margin-bottom:10px;">Percentage by Mythings</div>
 <input id="amount2" readonly="" style="width: 150px;" type="text"/>
 <div class="percent-display" id="percent2"></div>
 </div>
@@ -217,36 +218,36 @@
 </div>
 <!-- السعر بعد الخصم -->
 <div class="container">
-<h2>السعر بعد الخصم</h2>
+<h2>  Price Before Discount</h2>
 <table>
 <tr>
-<td class="yellow">السعر قبل الخصم</td>
+<td class="yellow">  Price Before Discount</td>
 <td><input id="price1" oninput="calculateDiscount1()" type="number"/></td>
 </tr>
 <tr>
-<td class="red">نسبة الخصم</td>
+<td class="red">Discount Percentage</td>
 <td><input id="discount1" oninput="calculateDiscount1()" type="number"/></td>
 </tr>
 <tr>
-<td class="blue">السعر بعد الخصم</td>
+<td class="green">Price after Discount</td>
 <td><input id="result1" readonly="" type="text"/></td>
 </tr>
 </table>
 </div>
 <!-- حساب نسبة الخصم -->
 <div class="container">
-<h2>حساب نسبة الخصم</h2>
+<h2>Discount Percentage Calculation</h2>
 <table>
 <tr>
-<td class="yellow">السعر قبل الخصم</td>
+<td class="yellow">  Price Before Discount</td>
 <td><input id="price2" oninput="calculatePercentage()" type="number"/></td>
 </tr>
 <tr>
-<td class="red">نسبة الخصم</td>
+<td class="red">Discount Percentage</td>
 <td><input id="discount2" readonly="" type="text"/></td>
 </tr>
 <tr>
-<td class="blue">السعر بعد الخصم</td>
+<td class="green">Price after Discount</td>
 <td><input id="priceAfter2" oninput="calculatePercentage()" type="number"/></td>
 </tr>
 </table>
@@ -643,9 +644,9 @@ function copyTableContent(button) {
     document.getElementById('discountMessages').innerHTML = combined;
   }
 </script>
-<div class="proper-case-tool" style="min-width: 400px; background-color: red; padding: 10px; border-radius: 12px; color: white;"><h2>Sku</h2><div class="input-row" style="display: flex; justify-content: center; align-items: flex-end; gap: 10px; flex-wrap: wrap; margin-top: 20px;">
+<div class="proper-case-tool" style="min-width: 400px; background-color: #594c35; padding: 10px; border-radius: 12px; color: white;"><h2 style="color: black;">SKU</h2><div class="input-row" style="display: flex; justify-content: center; align-items: flex-end; gap: 10px; flex-wrap: wrap; margin-top: 20px;">
   <div class="form-group">
-    <label style="background-color: orange; color: black; padding: 2px 6px; border-radius: 4px;">Number</label>
+    <label style="background-color: #594c35; color: black; padding: 2px 6px; border-radius: 4px;">Number</label>
     <select id="numberPart" onchange="generateCode()">
       <option value="15">15</option>
       <option value="84">84</option>
@@ -654,15 +655,15 @@ function copyTableContent(button) {
     </select>
   </div>
   <div class="form-group">
-    <label style="background-color: yellow; color: black; padding: 2px 6px; border-radius: 4px;">First 2 Letter</label>
+    <label style="background-color: #594c35; color: black; padding: 2px 6px; border-radius: 4px;">First 2 Letter</label>
     <input id="customLetters" maxlength="2" placeholder="" type="text" oninput="this.value = this.value.toUpperCase(); generateCode();"/>
   </div>
   <div class="form-group">
-    <label style="background-color: red; color: white; padding: 2px 6px; border-radius: 4px;">Last 2 Letter</label>
+    <label style="background-color: #594c35; color: black; padding: 2px 6px; border-radius: 4px;">Last 2 Letter</label>
     <input id="extraLetters" maxlength="2" placeholder="" type="text" oninput="this.value = this.value.toUpperCase(); generateCode();"/>
   </div>
   <div class="form-group">
-    <label style="background-color: green; color: white; padding: 2px 6px; border-radius: 4px;">Id Item</label>
+    <label style="background-color: #594c35; color: black; padding: 2px 6px; border-radius: 4px;">Id Item</label>
     <input id="finalNumber" maxlength="4" placeholder="" type="text" oninput="generateCode();"/>
   </div>
   <div style="display: flex; align-items: center; gap: 8px; margin-top: 10px;">
