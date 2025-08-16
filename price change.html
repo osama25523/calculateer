@@ -1,150 +1,135 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar">
+  <a href="index.html">Discount & Sale Price</a>
 <head>
   <meta charset="UTF-8">
-  <title>Price Change</title>
+  <title>تنظيف الروابط + تنسيق الأرقام</title>
   <style>
     body {
-      background-color: #121212;
-      color: #fff;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      padding: 30px;
-    }
-
-    h2 {
-      color: #00e0ff;
-      margin-bottom: 10px;
-    }
-
-    .container {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f3f3f3;
       display: flex;
-      gap: 20px;
-      align-items: flex-start;
-      justify-content: flex-start;
-      flex-wrap: wrap;
-    }
-
-    .box {
-      background: #1e1e1e;
-      border: 1px solid #333;
-      padding: 15px;
-      border-radius: 12px;
-      width: 220px;
-    }
-
-    .box h3 {
-      margin-top: 0;
-      color: #00bcd4;
-      display: flex;
+      flex-direction: column;
       align-items: center;
-      gap: 8px;
+      gap: 60px; /* مسافة كبيرة بين الأقسام */
+      padding: 40px 0;
     }
-
-    textarea {
+    .box {
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.15);
+      width: 400px;
+      text-align: center;
+    }
+    h3 {
+      margin: 0 0 12px;
+      font-size: 18px;
+    }
+    .input-area {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+    input, textarea {
       width: 100%;
-      height: 160px;
-      background: #2c2c2c;
-      color: #fff;
-      border: none;
-      padding: 10px;
-      font-size: 15px;
+      padding: 8px;
+      font-size: 14px;
+      border: 1px solid #ccc;
       border-radius: 6px;
-      resize: none;
-      margin-bottom: 10px;
+      outline: none;
     }
-
+    textarea {
+      resize: vertical;
+      height: 160px;
+      font-family: monospace;
+    }
     button {
-      background-color: #00bcd4;
-      color: white;
+      padding: 8px 14px;
+      font-size: 14px;
       border: none;
-      padding: 8px 12px;
-      margin-right: 5px;
-      margin-bottom: 8px;
+      background: #0078d7;
+      color: white;
       border-radius: 6px;
       cursor: pointer;
-      font-weight: bold;
+      transition: background 0.2s;
+      margin: 4px;
     }
-
     button:hover {
-      background-color: #00acc1;
-    }
-
-    img.icon {
-      width: 20px;
-      vertical-align: middle;
+      background: #005fa3;
     }
   </style>
 </head>
 <body>
 
-  <a href="index.html">Discount & Sale Price</a>
-
-  <h2>Price Change</h2>
-
-  <div class="container">
-    <!-- Group 1 -->
-    <div class="box">
-      <h3>Group 1</h3>
-      <textarea id="group1" placeholder="Enter numbers" oninput="updateAllResults()"></textarea>
-    </div>
-
-    <!-- Group 2 -->
-    <div class="box">
-      <h3>Group 2</h3>
-      <textarea id="group2" placeholder="Enter numbers" oninput="updateAllResults()"></textarea>
-      <button onclick="copyToClipboard('result1')" title="Copy">
-  📋
-</button>
-
-      <textarea id="result1" readonly placeholder="Result (G2 - G1)"></textarea>
-    </div>
-
-    <!-- Group 3 -->
-    <div class="box">
-      <h3>Group 3</h3>
-      <textarea id="group3" placeholder="Enter numbers" oninput="updateAllResults()"></textarea>
-        <button onclick="copyToClipboard('result2')" title="Copy">
-  📋</button>
-      <textarea id="result2" readonly placeholder="Result (G3 - G1)"></textarea>
-    </div>
-
-    <!-- Group 4 -->
-    <div class="box">
-      <h3>Group 4</h3>
-      <textarea id="group4" placeholder="Enter numbers" oninput="updateAllResults()"></textarea>
-        <button onclick="copyToClipboard('result3')" title="Copy">
-  📋</button>
-      <textarea id="result3" readonly placeholder="Result (G4 - G1)"></textarea>
+  <!-- قسم الروابط -->
+  <div class="box">
+    <h3>🚀 Link</h3>
+    <div class="input-area">
+      <input type="text" id="urlInput" placeholder="Put Link Here">
+      <button id="openBtn">Open</button>
     </div>
   </div>
 
+  <!-- قسم الأرقام -->
+  <div class="box">
+    <h3>🔢</h3>
+    <textarea id="numbersInput" placeholder=" "></textarea>
+    <br><br>
+    <button id="convertBtn">Convert</button>
+    <button id="copyBtn">📋</button>
+    <br><br>
+    <textarea id="numbersOutput" placeholder=""></textarea>
+  </div>
+
   <script>
-    function updateAllResults() {
-      calculateDifference('group1', 'group2', 'result1');
-      calculateDifference('group1', 'group3', 'result2');
-      calculateDifference('group1', 'group4', 'result3');
-    }
+    // ---- جزء الروابط ----
+    const input = document.getElementById("urlInput");
+    const button = document.getElementById("openBtn");
 
-    function calculateDifference(group1Id, groupXId, resultId) {
-      const group1 = document.getElementById(group1Id).value.trim().split('\n').map(Number);
-      const groupX = document.getElementById(groupXId).value.trim().split('\n').map(Number);
-      let result = [];
-
-      for (let i = 0; i < groupX.length; i++) {
-        const valX = groupX[i];
-        const val1 = group1[i] || 0;
-        result.push(valX - val1); // الفرق من G1 (وليس العكس)
+    function openCleanUrl() {
+      let url = input.value.trim();
+      let cleanUrl = url.split("?")[0];
+      if (cleanUrl) {
+        window.location.href = cleanUrl; // يفتح على نفس الصفحة
       }
-
-      document.getElementById(resultId).value = result.join('\n');
     }
 
-    function copyToClipboard(id) {
-      const textarea = document.getElementById(id);
-      textarea.select();
-      document.execCommand("copy");
-    }
+    // تشغيل عند الضغط على Enter
+    input.addEventListener("keydown", function(event) {
+      if (event.key === "Enter") {
+        openCleanUrl();
+      }
+    });
+
+    // تشغيل عند الضغط على الكبسة
+    button.addEventListener("click", openCleanUrl);
+
+    // ---- جزء الأرقام ----
+    const numbersInput = document.getElementById("numbersInput");
+    const numbersOutput = document.getElementById("numbersOutput");
+    const convertBtn = document.getElementById("convertBtn");
+    const copyBtn = document.getElementById("copyBtn");
+
+    convertBtn.addEventListener("click", () => {
+      let text = numbersInput.value;
+      // تقسيم حسب الفواصل والمسافات
+      let arr = text.split(/[\s,]+/).filter(x => x.trim() !== "");
+      numbersOutput.value = arr.join("\n");
+    });
+
+    // زر النسخ
+    copyBtn.addEventListener("click", () => {
+      if (numbersOutput.value.trim() !== "") {
+        numbersOutput.select();
+        document.execCommand("copy");
+        copyBtn.textContent = "✅ تم النسخ";
+        setTimeout(() => {
+          copyBtn.textContent = "📋 نسخ";
+        }, 2000);
+      }
+    });
   </script>
-
 </body>
 </html>
