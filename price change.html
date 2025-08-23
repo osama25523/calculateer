@@ -1,135 +1,27 @@
-<!DOCTYPE html>
-<html lang="ar">
-  <a href="index.html">Discount & Sale Price</a>
+  <!DOCTYPE html>
+<html lang="en">
+    <a href="index.html">Discount & Sale Price</a>
 <head>
-  <meta charset="UTF-8">
-  <title>تنظيف الروابط + تنسيق الأرقام</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      background: #f3f3f3;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 60px; /* مسافة كبيرة بين الأقسام */
-      padding: 40px 0;
-    }
-    .box {
-      background: #fff;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 3px 12px rgba(0,0,0,0.15);
-      width: 400px;
-      text-align: center;
-    }
-    h3 {
-      margin: 0 0 12px;
-      font-size: 18px;
-    }
-    .input-area {
-      display: flex;
-      gap: 6px;
-      margin-bottom: 12px;
-    }
-    input, textarea {
-      width: 100%;
-      padding: 8px;
-      font-size: 14px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      outline: none;
-    }
-    textarea {
-      resize: vertical;
-      height: 160px;
-      font-family: monospace;
-    }
-    button {
-      padding: 8px 14px;
-      font-size: 14px;
-      border: none;
-      background: #0078d7;
-      color: white;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: background 0.2s;
-      margin: 4px;
-    }
-    button:hover {
-      background: #005fa3;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Open Image in New Tab</title>
 </head>
 <body>
+    <input type="text" id="urlInput" placeholder="Enter image URL" />
+    <button onclick="processUrl()">Open Image in New Tab</button>
+    <p id="result"></p>
 
-  <!-- قسم الروابط -->
-  <div class="box">
-    <h3>🚀 Link</h3>
-    <div class="input-area">
-      <input type="text" id="urlInput" placeholder="Put Link Here">
-      <button id="openBtn">Open</button>
-    </div>
-  </div>
+    <script>
+        function processUrl() {
+            const url = document.getElementById("urlInput").value;
+            const cleanedUrl = url.split('?')[0];
 
-  <!-- قسم الأرقام -->
-  <div class="box">
-    <h3>🔢</h3>
-    <textarea id="numbersInput" placeholder=" "></textarea>
-    <br><br>
-    <button id="convertBtn">Convert</button>
-    <button id="copyBtn">📋</button>
-    <br><br>
-    <textarea id="numbersOutput" placeholder=""></textarea>
-  </div>
+            // Open the cleaned URL in a new tab
+            window.open(cleanedUrl, '_blank');
 
-  <script>
-    // ---- جزء الروابط ----
-    const input = document.getElementById("urlInput");
-    const button = document.getElementById("openBtn");
-
-    function openCleanUrl() {
-      let url = input.value.trim();
-      let cleanUrl = url.split("?")[0];
-      if (cleanUrl) {
-        window.location.href = cleanUrl; // يفتح على نفس الصفحة
-      }
-    }
-
-    // تشغيل عند الضغط على Enter
-    input.addEventListener("keydown", function(event) {
-      if (event.key === "Enter") {
-        openCleanUrl();
-      }
-    });
-
-    // تشغيل عند الضغط على الكبسة
-    button.addEventListener("click", openCleanUrl);
-
-    // ---- جزء الأرقام ----
-    const numbersInput = document.getElementById("numbersInput");
-    const numbersOutput = document.getElementById("numbersOutput");
-    const convertBtn = document.getElementById("convertBtn");
-    const copyBtn = document.getElementById("copyBtn");
-
-    convertBtn.addEventListener("click", () => {
-      let text = numbersInput.value;
-      // تقسيم حسب الفواصل والمسافات
-      let arr = text.split(/[\s,]+/).filter(x => x.trim() !== "");
-      numbersOutput.value = arr.join("\n");
-    });
-
-    // زر النسخ
-    copyBtn.addEventListener("click", () => {
-      if (numbersOutput.value.trim() !== "") {
-        numbersOutput.select();
-        document.execCommand("copy");
-        copyBtn.textContent = "✅ تم النسخ";
-        setTimeout(() => {
-          copyBtn.textContent = "📋 نسخ";
-        }, 2000);
-      }
-    });
-  </script>
+            // Optional: Display the cleaned URL
+            document.getElementById("result").textContent = `Cleaned URL: ${cleanedUrl}`;
+        }
+    </script>
 </body>
 </html>
