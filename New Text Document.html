@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+ <a href="index.html">Discount & Sale Price</a>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Capitalize Text</title>
+  <style>
+    body{
+      margin:0;
+      font-family:system-ui, sans-serif;
+      background:#E2DCEC;
+      color:#e5e7eb;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      height:100vh;
+    }
+    .box{width:90%;max-width:700px}
+    textarea{
+      width:100%;
+      min-height:400px;
+      background:#0b1220;
+      color:#e5e7eb;
+      border:1px solid #334155;
+      border-radius:12px;
+      padding:14px;
+      line-height:1.6;
+      font-size:15px;
+    }
+    .hint{font-size:12px;color:#94a3b8;margin-top:6px}
+    button{
+      margin-top:10px;
+      padding:10px 14px;
+      border-radius:10px;
+      border:1px solid #334155;
+      background:#1f2937;
+      color:#e5e7eb;
+      font-weight:700;
+      cursor:pointer;
+    }
+    button:hover{background:#22d3ee;color:#001018}
+  </style>
+</head>
+<body>
+  <div class="box">
+    <textarea id="text" placeholder=""></textarea>
+    <div class="hint"></div>
+    <button id="copyBtn">📋</button>
+  </div>
+
+  <script>
+    const textEl = document.getElementById('text');
+    const copyBtn = document.getElementById('copyBtn');
+    const exceptions = ["in","and","on","at","for","to","from","with","of"];
+
+    function cap(str){
+      if(str.length === 0) return str;
+      return str[0].toUpperCase() + str.slice(1).toLowerCase();
+    }
+
+    function isLatinWord(token){
+      return /[A-Za-z]/.test(token);
+    }
+
+    function titleCaseLine(line){
+      return line.split(/(\s+)/).map((chunk, i, arr) => {
+        if(/^\s+$/.test(chunk)) return chunk;
+        const parts = chunk.split(/([\-/])/);
+        const isLineStart = (() => {
+          for(let j=i-1; j>=0; j--){
+            if(!/^\s+$/.test(arr[j])) return false;
+          }
+          return true;
+        })();
+        return parts.map((p) => {
+          if(p === '-' || p === '/') return p;
+          if(!isLatinWord(p)) return p;
+          const lower = p.toLowerCase();
+          const shouldException = !isLineStart && exceptions.includes(lower);
+          return shouldException ? lower : cap(p);
+        }).join('');
+      }).join('');
+    }
+
+    function convert(){
+      const lines = textEl.value.split(/\r?\n/);
+      const out = lines.map(line => titleCaseLine(line)).join('\n');
+      textEl.value = out;
+    }
+
+    textEl.addEventListener('input', convert);
+
+    copyBtn.addEventListener('click', async ()=>{
+      textEl.select();
+      textEl.setSelectionRange(0, textEl.value.length);
+      try{
+        await navigator.clipboard.writeText(textEl.value);
+        copyBtn.textContent = '📋✅';
+        setTimeout(()=> copyBtn.textContent = 'نسخ', 1500);
+      }catch(err){
+        document.execCommand('copy');
+      }
+    });
+
+    // مثال تلقائي
+    textEl.value = [    ].join('\n');
+    convert();
+  </script>
+</body>
+</html>
