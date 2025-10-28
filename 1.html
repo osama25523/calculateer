@@ -11,6 +11,9 @@
   <h2>Pics Links</h2>
   <textarea id="links" rows="10" cols="50" placeholder="https://example.com/image1.jpg"></textarea><br><br>
 
+  <label for="startNum">ابدأ الترقيم من:</label>
+  <input type="number" id="startNum" value="1" style="width:80px; margin-right:10px;"><br><br>
+
   <button onclick="downloadAndZip()">Download</button>
 
   <p id="status" style="color: green; margin-top: 10px;"></p>
@@ -19,16 +22,18 @@
     async function downloadAndZip() {
       const textarea = document.getElementById('links');
       const status = document.getElementById('status');
+      const startNumInput = document.getElementById('startNum');
       const urls = textarea.value.trim().split('\n').filter(Boolean);
+      let startNum = parseInt(startNumInput.value) || 1;
+
       if (urls.length === 0) {
-        status.textContent = 'add Links';
+        status.textContent = 'أضف روابط الصور أولاً';
         return;
       }
 
-      status.textContent = ' please Wait...';
+      status.textContent = 'الرجاء الانتظار...';
 
       const zip = new JSZip();
-      let count = 1;
 
       for (let i = 0; i < urls.length; i++) {
         const url = urls[i];
@@ -36,19 +41,18 @@
           const response = await fetch(url);
           const blob = await response.blob();
           const ext = url.split('.').pop().split('?')[0]; // استخراج الامتداد
-          zip.file(`${count}.${ext}`, blob);
-          count++;
+          zip.file(`${startNum}.${ext}`, blob);
+          startNum++;
 
-          // ✅ عداد التحميل
-          status.textContent = `Downloading ${i + 1} of ${urls.length}...⌛`;
+          status.textContent = `يتم تحميل ${i + 1} من ${urls.length}... ⌛`;
 
         } catch (error) {
-          console.error(`Failed: ${url}`, error);
-          status.textContent = `Error loading ${i + 1}/${urls.length}`;
+          console.error(`فشل التحميل: ${url}`, error);
+          status.textContent = `خطأ في تحميل ${i + 1}/${urls.length}`;
         }
       }
 
-      status.textContent = 'Processing...';
+      status.textContent = 'جاري تجهيز الملف المضغوط...';
 
       const zipFile = await zip.generateAsync({ type: "blob" });
       const link = document.createElement("a");
@@ -56,7 +60,7 @@
       link.download = "images.zip";
       link.click();
 
-      status.textContent = 'Done!';
+      status.textContent = 'تم التحميل بنجاح ✅';
     }
   </script>
 </body>
