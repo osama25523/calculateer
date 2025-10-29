@@ -39,17 +39,25 @@
       cursor:pointer;
     }
     button:hover{background:#22d3ee;color:#001018}
+    #link1 {
+  position: absolute;
+  top: 10px;       /* المسافة من الأعلى */
+  right: 10px;     /* المسافة من اليمين */
+  text-decoration: none;
+  font-size: 18px;
+  color: #0b1220;
+  background: #e5e7eb;
+  padding: 6px 10px;
+  border-radius: 8px;
+}
+#link1:hover {
+  background: #22d3ee;
+  color: #001018;
+}
   </style>
 </head>
 <body>
- #link1 {
-  position: absolute;
-  top: 10px;        /* المسافة من الأعلى */
-  right: 10px;      /* المسافة من اليمين */
-  text-decoration: none;
-  font-size: 18px;
-}
- <a href="index.html">Discount & Sale Price</a>
+  <a id="link1" href="index.html">Discount & Sale Price</a>
   <div class="box">
     <textarea id="text" placeholder=""></textarea>
     <div class="hint"></div>
@@ -116,4 +124,5 @@
   </script>
 </body>
 </html>
+
 
