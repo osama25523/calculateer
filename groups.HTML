@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title></title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: radial-gradient(circle at center, #f9fafb 0%, #e2e8f0 100%);
+      font-family: "Segoe UI", Tahoma, Arial, "Noto Sans Arabic", sans-serif;
+      color: #0b1220;
+    }
+
+    .stage {
+      position: relative;
+      width: 700px;
+      height: 700px;
+      border-radius: 50%;
+    }
+
+    /* الدائرة المركزية */
+    .center {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      background: #ffffff;
+      border: 4px solid #0ea5a4;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 10px;
+    }
+
+    .center textarea {
+      width: 90%;
+      height: 90%;
+      border: none;
+      outline: none;
+      resize: none;
+      background: transparent;
+      text-align: center;
+      font-size: 18px;
+      font-weight: 700;
+      color: #0ea5a4;
+      direction: rtl;
+      font-family: inherit;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      line-height: 1.2;
+    }
+
+    /* الدوائر الخارجية */
+    .group {
+      position: absolute;
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      background: white;
+      border: 3px solid #0ea5a4;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: bold;
+      color: #0ea5a4;
+      transform: translate(-50%, -50%);
+      transition: 0.3s;
+    }
+
+    .group.active {
+      background: #fb923c;
+      color: white;
+      border-color: #fb923c;
+      transform: translate(-50%, -50%) scale(1.15);
+    }
+
+    .group:hover {
+      transform: translate(-50%, -50%) scale(1.1);
+      border-color: #fb923c;
+      color: #fb923c;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="stage" id="stage">
+    <div class="center">
+      <textarea placeholder="اكتب اسم المنطقة هنا..."></textarea>
+    </div>
+  </div>
+
+  <script>
+    const stage = document.getElementById('stage');
+    const radius = 260;
+    const centerX = 350;
+    const centerY = 350;
+
+    // الجروبات والاماكن
+    const groupsData = {
+      1: ["شفا بدران", "أبو نصير", "الجبيهة", "صويلح"],
+      2: ["طبربور", "الهاشمي الشمالي والجنوبي", "ماركا", "القويسمة"],
+      3: ["وسط البلد", "جبل الحسين", "العبدلي", "الشميساني"],
+      4: ["خلدا", "تلاع العلي", "أم السماق", "الرابية", "الصالحين"],
+      5: ["البيادر", "الجندويل", "دابوق", "الكرسي"],
+      6: ["عبدون", "دير غبار", "الدوار السابع", "الصويفية", "ام اذينه"],
+      7: ["مرج الحمام", "خريبة السوق", "المقابلين", "البنيات"]
+    };
+
+    // إنشاء الدوائر الخارجية
+    for (let i = 0; i < 7; i++) {
+      const angle = (i / 7) * Math.PI * 2 - Math.PI / 2;
+      const x = centerX + Math.cos(angle) * radius;
+      const y = centerY + Math.sin(angle) * radius;
+
+      const div = document.createElement('div');
+      div.className = 'group';
+      div.id = `group${i + 1}`;
+      div.textContent = `Group ${i + 1}`;
+      div.style.left = `${x}px`;
+      div.style.top = `${y}px`;
+      stage.appendChild(div);
+    }
+
+    // مراقبة الكتابة في النص
+    const textarea = document.querySelector('.center textarea');
+
+    textarea.addEventListener('input', () => {
+      const text = textarea.value.trim();
+      highlightGroup(text);
+    });
+
+    function highlightGroup(areaName) {
+      document.querySelectorAll('.group').forEach(g => g.classList.remove('active'));
+      if (!areaName) return;
+      for (const [groupId, areas] of Object.entries(groupsData)) {
+        if (areas.some(a => a.includes(areaName))) {
+          document.getElementById(`group${groupId}`).classList.add('active');
+          break;
+        }
+      }
+    }
+  </script>
+
+</body>
+</html>
