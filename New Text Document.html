@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<title>✨ Market ✨</title>
+<style>
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #a5b4fc, #facc15); padding:30px; display:flex; justify-content:center; }
+    .container { background:white; padding:30px; border-radius:15px; box-shadow:0 10px 25px rgba(0,0,0,0.2); width:90%; max-width:1200px; }
+    h2 { text-align:center; color:#4f46e5; }
+    p { text-align:center; color:#374151; font-size:16px; }
+    .flex { display:flex; gap:20px; margin-top:20px; }
+    textarea { flex:1; height:200px; font-size:14px; padding:10px; border-radius:10px; border:1px solid #cbd5e1; resize:none; }
+    button { display:block; width:100%; padding:12px; font-size:16px; margin-top:20px; cursor:pointer; background:#4f46e5; color:white; border:none; border-radius:10px; transition:0.3s; }
+    button:hover { background:#4338ca; }
+    .output-box { flex:1; overflow:auto; max-height:300px; border:1px solid #cbd5e1; border-radius:10px; padding:10px; background:#f8fafc; position:relative; }
+    table { width:100%; border-collapse: collapse; margin-top:10px; }
+    th, td { border:1px solid #cbd5e1; padding:6px; text-align:center; font-size:14px; }
+    th { background:#e0e7ff; color:#1e3a8a; }
+    td { color:#374151; }
+    .copy-btn { position:absolute; top:10px; right:10px; background:#10b981; color:white; border:none; padding:5px 10px; border-radius:5px; cursor:pointer; transition:0.3s; font-size:12px; }
+    .copy-btn:hover { background:#059669; }
+</style>
+</head>
+<body>
+<div class="container">
+<h2>✨Market✨</h2>
+<p>📋SKU+Price+Active</p>
+
+<div class="flex">
+    <textarea id="input" placeholder="Put Data Here"></textarea>
+    <div id="output1" class="output-box">
+        <button class="copy-btn" onclick="copyTable('output1')">📋</button>
+    </div>
+</div>
+
+<button onclick="cleanData()">🧹Delete Duplicate </button>
+
+<hr>
+<p>🔍 Price +Active Finder</p>
+<div class="flex">
+    <textarea id="searchInput" placeholder="Put SKU"></textarea>
+    <div id="output2" class="output-box">
+        <button class="copy-btn" onclick="copyTable('output2')">📋 </button>
+    </div>
+</div>
+<button onclick="searchSKU()">🔎 Search</button>
+
+</div>
+
+<script>
+let skuData = {};
+
+function cleanData(){
+    const lines = document.getElementById('input').value.trim().split(/\n+/);
+    skuData = {};
+    const result = [];
+
+    for(let line of lines){
+        line = line.trim();
+        if(!line) continue;
+        const parts = line.split(/\s+/);
+        if(parts.length < 2) continue;
+        const sku = parts[0];
+        const price = parts[1];
+        const activeVal = parts[2] || ''; // أي قيمة إضافية تعتبر Active
+        if(!(sku in skuData)){
+            skuData[sku] = {price: price, active: activeVal};
+            result.push({sku: sku, price: price, active: activeVal});
+        }
+    }
+
+    let html = '<table><tr><th>SKU</th><th>السعر</th><th>Active</th></tr>';
+    for(let item of result){
+        html += `<tr><td>${item.sku}</td><td>${item.price}</td><td>${item.active}</td></tr>`;
+    }
+    html += '</table>';
+    document.getElementById('output1').innerHTML = html + '<button class="copy-btn" onclick="copyTable(\'output1\')">📋</button>';
+}
+
+function searchSKU(){
+    const searchLines = document.getElementById('searchInput').value.trim().split(/\n+/);
+    let html = '<table><tr><th>SKU</th><th>Price</th><th>Active</th></tr>';
+    for(let sku of searchLines){
+        sku = sku.trim();
+        if(sku in skuData){
+            html += `<tr><td>${sku}</td><td>${skuData[sku].price}</td><td>${skuData[sku].active}</td></tr>`;
+        } else {
+            html += `<tr><td>${sku}</td><td>Not Found</td><td></td></tr>`;
+        }
+    }
+    html += '</table>';
+    document.getElementById('output2').innerHTML = html + '<button class="copy-btn" onclick="copyTable(\'output2\')">📋</button>';
+}
+
+function copyTable(id){
+    const outputDiv = document.getElementById(id);
+    const range = document.createRange();
+    range.selectNode(outputDiv.querySelector('table'));
+    window.getSelection().removeAllRanges();
+    window.getSelection().addRange(range);
+    document.execCommand('copy');
+    window.getSelection().removeAllRanges();
+    alert('✅ Copied');
+}
+</script>
+</body>
+</html>
