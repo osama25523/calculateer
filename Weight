@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="ar" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Weight</title>
+
+  <style>
+    body { 
+      font-family: Arial; 
+      padding: 0; 
+      margin: 0; 
+      background:#f0f0f5; 
+      display:flex; 
+      align-items:flex-start; 
+    }
+
+    .table-container {
+      width:50%; /* نصف الصفحة */
+      padding:10px;
+      box-sizing:border-box;
+    }
+
+    table { 
+      width:100%; 
+      border-collapse:collapse; 
+      background:white; 
+      direction:ltr; 
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1); 
+      font-size:14px; 
+      table-layout:fixed; 
+    }
+
+    th, td { 
+      border:1px solid #ccc; 
+      padding:4px; 
+      text-align:center; 
+      min-width:50px; 
+      overflow:hidden; 
+      white-space:nowrap; 
+    }
+
+    th { background:#444; color:white; font-weight:bold; }
+    td[contenteditable="true"] { background:#fff9c4; font-weight:bold; }
+    td.readonly { background:#f9f9f9; }
+
+    /* ألوان الأعمدة */
+    .c2 { background:#ffcccc; }
+    .c3 { background:#cce5ff; }
+    .c4 { background:#ccffcc; }
+    .c5 { background:#ffe0b3; }
+    .c6 { background:#e0ccff; }
+
+    /* صفوف متناوبة */
+    tbody tr:nth-child(odd) { background:#fdfdfd; }
+    tbody tr:nth-child(even) { background:#f6f6f6; }
+
+    /* تمييز السعر */
+    .price { background:#fff59d; font-weight:bold; border:1px solid #ffd700; }
+
+    .controls { display:flex; gap:5px; margin-bottom:5px; justify-content:flex-start; flex-wrap:wrap; }
+    .controls input { font-size:14px; padding:4px; width:60px; }
+  </style>
+</head>
+<body>
+
+<div class="table-container">
+  <h2 style="text-align:left; color:#333;">Weight</h2>
+
+  <div class="controls">
+    <input id="hdr3" type="number" value="0" placeholder="عنوان 3">
+    <input id="hdr4" type="number" value="500" placeholder="عنوان 4">
+    <input id="hdr5" type="number" value="800" placeholder="عنوان 5">
+    <input id="hdr6" type="number" value="1000" placeholder="عنوان 6">
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Real Price</th>
+        <th id="th2">External Price</th>
+        <th id="th3">0 g</th>
+        <th id="th4">500 g</th>
+        <th id="th5">800 g</th>
+        <th id="th6">1000 g</th>
+      </tr>
+    </thead>
+    <tbody id="tbody"></tbody>
+  </table>
+</div>
+
+<script>
+const ROWS = 300;
+const tbody = document.getElementById("tbody");
+
+function fmt(n){ return Math.round(n*1e6)/1e6; }
+
+for(let i=0;i<ROWS;i++){
+  const tr = document.createElement("tr");
+
+  const price = document.createElement("td");
+  price.contentEditable = "true";
+  price.className = "price";
+
+  const c2 = document.createElement("td"); c2.className = "c2 readonly";
+  const c3 = document.createElement("td"); c3.textContent = "0"; c3.className = "c3 readonly";
+  const c4 = document.createElement("td"); c4.className = "c4 readonly";
+  const c5 = document.createElement("td"); c5.className = "c5 readonly";
+  const c6 = document.createElement("td"); c6.className = "c6 readonly";
+
+  tr.appendChild(price);
+  tr.appendChild(c2);
+  tr.appendChild(c3);
+  tr.appendChild(c4);
+  tr.appendChild(c5);
+  tr.appendChild(c6);
+
+  tbody.appendChild(tr);
+}
+
+const hdr3 = document.getElementById("hdr3");
+const hdr4 = document.getElementById("hdr4");
+const hdr5 = document.getElementById("hdr5");
+const hdr6 = document.getElementById("hdr6");
+
+function updateHeaders(){
+  document.getElementById("th3").textContent = hdr3.value + " g";
+  document.getElementById("th4").textContent = hdr4.value + " g";
+  document.getElementById("th5").textContent = hdr5.value + " g";
+  document.getElementById("th6").textContent = hdr6.value + " g";
+}
+
+function recompute(){
+  const h3 = parseFloat(hdr3.value) || 0;
+  const v4 = parseFloat(hdr4.value) || 0;
+  const v5 = parseFloat(hdr5.value) || 0;
+  const v6 = parseFloat(hdr6.value) || 0;
+
+  tbody.querySelectorAll("tr").forEach(tr=>{
+    const price = parseFloat(tr.querySelector(".price").textContent) || 0;
+    tr.querySelector(".c2").textContent = fmt((h3/1000)*price);
+    tr.querySelector(".c4").textContent = fmt((v4/1000)*price)-(h3/1000)*price;
+    tr.querySelector(".c5").textContent = fmt((v5/1000)*price)-(h3/1000)*price;
+    tr.querySelector(".c6").textContent = fmt((v6/1000)*price)-(h3/1000)*price;
+  });
+}
+
+[hdr3, hdr4, hdr5, hdr6].forEach(h=>{
+  h.addEventListener("input",()=>{
+    updateHeaders();
+    recompute();
+  });
+});
+
+tbody.addEventListener("input", e=>{
+  if(e.target.classList.contains("price")) recompute();
+});
+
+updateHeaders();
+</script>
+
+</body>
+</html>
