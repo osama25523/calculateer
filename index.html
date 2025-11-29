@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="ar">
 <head>
 <link href="1.jpg" rel="shortcut icon" type="image/x-icon"/>
@@ -12,9 +11,41 @@
       direction: rtl;
       color: white;
       margin: 0;
-      padding: 20px;
+      padding: 0; /* Changed to 0 to make nav bar fit top */
       position: relative;
     }
+
+    /* --- New Navigation Bar Styles --- */
+    .nav-bar {
+        background-color: #111;
+        padding: 5px;
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        margin-bottom: 30px;
+    }
+
+    .nav-link {
+        text-decoration: none;
+        color: white;
+        background-color: #333;
+        padding: 5px 20px;
+        border-radius: 8px;
+        font-weight: bold;
+        transition: all 0.3s ease;
+        border: 1px solid #444;
+        font-size: 14px;
+    }
+
+    .nav-link:hover {
+        background-color: #00aaff; /* Blue glow on hover */
+        transform: translateY(-3px);
+        box-shadow: 0 4px 10px rgba(0, 170, 255, 0.4);
+        border-color: #00aaff;
+    }
+    /* ---------------------------------- */
 
     h2 {
       text-align: center;
@@ -57,6 +88,7 @@
       gap: 20px;
       flex-wrap: wrap;
       margin-bottom: 30px;
+      padding: 0 20px; /* Added padding here since body padding was removed */
     }
 
     .top-container, .container {
@@ -78,7 +110,7 @@
       color: black;
       padding: 20px;
       border-radius: 12px;
-      margin-top: 40px;
+      margin: 40px 20px; /* Adjusted margin */
       direction: ltr;
     }
 
@@ -119,6 +151,7 @@
       margin-top: 20px;
       flex-wrap: wrap;
       position: relative;
+      padding: 0 20px;
     }
 
     .proper-case-tool {
@@ -130,7 +163,6 @@
       min-width: 300px;
     }
 
-    /* تعديل لون وحجم كلمة Proper*/
     .proper-case-tool h2 {
       color: white !important;
       font-size: 12px;
@@ -138,7 +170,6 @@
       text-align: center;
     }
 
-    /* نص textarea باللون الأبيض */
     #inputText {
       color: white;
       background-color: #000;
@@ -149,68 +180,46 @@
       font-size: 14px;
       font-family: Arial, sans-serif;
     }
-  
-.form-group {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 60px;
-}
-.form-group label {
-  font-size: 10px;
-  margin-bottom: 2px;
-}
-.form-group input,
-.form-group select {
-  width: 100%;
-  padding: 3px;
-  font-size: 12px;
-  border: 1px solid #444;
-  border-radius: 4px;
-    
-  background-color: #111;
-  color: #fff;
-  text-align: center;
-}
-    #link1 , #link2,  #link3,  #link4,  #link5{
-        position : absolute ;
-        top:10px;
+   
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 60px;
     }
-    #link1{
-        left:10px;
+    .form-group label {
+      font-size: 10px;
+      margin-bottom: 2px;
     }
-    #link2{
-        right:30px;
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 3px;
+      font-size: 12px;
+      border: 1px solid #444;
+      border-radius: 4px;
+      
+      background-color: #111;
+      color: #fff;
+      text-align: center;
     }
-    #link3{
-        right:80px;
-    }
-        #link4{
-        left:130px;
-    }
-#link5 {
-    position: relative; /* أو absolute حسب الحاجة */
-    Right: 10px;        /* تحريك أفقي */
-    top: 20px;          /* ينزله 10px لأسفل */
-}
-#link6 {
-    position: relative; /* أو absolute حسب الحاجة */
-    Right: 10px;        /* تحريك أفقي */
-    top: 20px;          /* ينزله 10px لأسفل */
-}
-    }
-        
+
 </style>
 </head>
 <body>
-        <a id="link1" href="SKU Generator.html">SKU Generator </a>
-        <a id="link2" href="Open pic in new tab.html">Links</a>
-        <a id="link3" href="pics extract.html">Pics Extract</a>
-        <a id="link4" href="Capitalizer.html">Capitalizer</a>
-<a id="link6" href="Market.html">Market</a>
-     <a id="link5" href="groups.HTML">Groups</a>
+
+    <div class="nav-bar">
+<a class="nav-link" href="Weight.HTML">Weight</a>
+        <a class="nav-link" href="Open pic in new tab.html">Links</a>
+        <a class="nav-link" href="pics extract.html">Pics Extract</a>
+        <a class="nav-link" href="Capitalizer.html">Capitalizer</a>
+        <a class="nav-link" href="groups.HTML">Groups</a>
+        <a class="nav-link" href="Market.html">Market</a>
+<a class="nav-link" href="SKU Generator.html">SKU Generator</a>
+
+    </div>
+
 <div class="top-row">
-<!-- النسبة -->
 <div class="top-container">
 <h2>discount on delivery</h2>
 <div class="row" style="display: flex; justify-content: center; gap: 30px;">
@@ -233,7 +242,6 @@
 </div>
 </div>
 </div>
-<!-- السعر بعد الخصم -->
 <div class="container">
 <h2>  Price Before Discount</h2>
 <table>
@@ -251,7 +259,6 @@
 </tr>
 </table>
 </div>
-<!-- حساب نسبة الخصم -->
 <div class="container">
 <h2>Discount Percentage Calculation</h2>
 <table>
@@ -270,7 +277,6 @@
 </table>
 </div>
 </div>
-<!-- خيارات المنتج -->
 <div class="product-options">
 <label class="red padded" for="optionSelector"><b>Choose Product Option:</b></label>
 <select id="optionSelector" onchange="showOptionContent()">
@@ -303,7 +309,7 @@
 <div class="option-content" id="sizeOption">
 <table>
 <tr>
-<td>1</td><td>ShortCode</td><td>Your Choice Of Size</td><td> </td><td>1</td><td>Y</td>
+<td>1</td><td>ShortCode</td><td>Your Choice Of Size</td><td> </td><td>1</td><td>Y</td>
 <td>Small</td><td>0</td><td class="bold">Medium</td><td>0</td><td>Large</td><td>0</td>
 </tr>
 </table>
@@ -311,7 +317,7 @@
 <div class="option-content" id="drinkOption">
 <table>
 <tr>
-<td>1</td><td>ShortCode</td><td>Your Choice Of Drink</td><td> </td><td>1</td><td>Y</td>
+<td>1</td><td>ShortCode</td><td>Your Choice Of Drink</td><td> </td><td>1</td><td>Y</td>
 <td>Matrix Cola</td><td>0</td><td>Matrix Orange</td><td>0</td><td>Matrix Up</td><td>0</td>
 <td>Matrix Cola Zero</td><td>0</td><td>Matrix Up Zero</td><td>0</td>
 </tr>
@@ -320,7 +326,7 @@
 <div class="option-content" id="weightOption">
 <table>
 <tr>
-<td>1</td><td>ShortCode</td><td>Your Choice Of Weight</td><td> </td><td>1</td><td>Y</td>
+<td>1</td><td>ShortCode</td><td>Your Choice Of Weight</td><td> </td><td>1</td><td>Y</td>
 <td>250g</td><td>0</td><td>500g</td><td>0</td><td>750g</td><td>0</td><td>1kg</td><td>0</td>
 </tr>
 </table>
@@ -328,7 +334,7 @@
 <div class="option-content" id="choice1Option">
 <table>
 <tr>
-<td>1</td><td>ShortCode</td><td>1st Choice</td><td> </td><td>1</td><td>Y</td>
+<td>1</td><td>ShortCode</td><td>1st Choice</td><td> </td><td>1</td><td>Y</td>
 <td>BBQ Pizza</td><td>0</td><td>Alfredo Pizza</td><td>0</td>
 <td>Vegetables Pizza</td><td>0</td><td>Pepperoni Pizza</td><td>0</td><td>Hotdog Pizza</td><td>0</td>
 <td>Mushroom Pizza</td><td>0</td><td>Turkey Pizza</td><td>0</td><td>Margherita Pizza</td><td>0</td>
@@ -339,7 +345,7 @@
 <div class="option-content" id="choice2Option">
 <table>
 <tr>
-<td>1</td><td>ShortCode</td><td>2nd Choice</td><td> </td><td>1</td><td>Y</td>
+<td>1</td><td>ShortCode</td><td>2nd Choice</td><td> </td><td>1</td><td>Y</td>
 <td>BBQ Pizza</td><td>0</td><td>Alfredo Pizza</td><td>0</td>
 <td>Vegetables Pizza</td><td>0</td><td>Pepperoni Pizza</td><td>0</td><td>Hotdog Pizza</td><td>0</td>
 <td>Mushroom Pizza</td><td>0</td><td>Turkey Pizza</td><td>0</td><td>Margherita Pizza</td><td>0</td>
@@ -350,7 +356,7 @@
 <div class="option-content" id="choice3Option">
 <table>
 <tr>
-<td>1</td><td>ShortCode</td><td>3rd Choice</td><td> </td><td>1</td><td>Y</td>
+<td>1</td><td>ShortCode</td><td>3rd Choice</td><td> </td><td>1</td><td>Y</td>
 <td>BBQ Pizza</td><td>0</td><td>Alfredo Pizza</td><td>0</td>
 <td>Vegetables Pizza</td><td>0</td><td>Pepperoni Pizza</td><td>0</td><td>Hotdog Pizza</td><td>0</td>
 <td>Mushroom Pizza</td><td>0</td><td>Turkey Pizza</td><td>0</td><td>Margherita Pizza</td><td>0</td>
@@ -361,7 +367,7 @@
 <div class="option-content" id="fishOption">
 <table>
 <tr>
-<td>1</td><td>ShortCode</td><td>Choose Your Fish</td><td> </td><td>1</td><td>Y</td>
+<td>1</td><td>ShortCode</td><td>Choose Your Fish</td><td> </td><td>1</td><td>Y</td>
 <td>Dennis Fish</td><td>0</td><td>Hamour Fish</td><td>0</td><td>Shaour Fish</td><td>0</td><td>Lot Fish</td><td>0</td>
 </tr>
 </table>
@@ -369,103 +375,103 @@
 </div>
 <div class="option-content" id="sauceOption1">
 <table>
-<tr><td>1</td><td>ShortCode</td><td>Your Choice Of Sauce</td><td> </td><td>1</td><td>Y</td><td>BBQ</td><td>0</td><td>Ranch Sauce</td><td>0</td><td>Jalapeno</td><td>0</td><td>Hot Sauce</td><td>0</td><td>Smokey Sauce</td><td>0</td><td>Cheddar Sauce</td><td>0</td><td>Garlic</td><td>0</td></tr>
+<tr><td>1</td><td>ShortCode</td><td>Your Choice Of Sauce</td><td> </td><td>1</td><td>Y</td><td>BBQ</td><td>0</td><td>Ranch Sauce</td><td>0</td><td>Jalapeno</td><td>0</td><td>Hot Sauce</td><td>0</td><td>Smokey Sauce</td><td>0</td><td>Cheddar Sauce</td><td>0</td><td>Garlic</td><td>0</td></tr>
 </table>
 <button onclick="copyTableContent(this)" style="margin-top:10px; padding:5px 10px; font-size:12px; border-radius:6px; cursor:pointer;">📋 Copy</button>
 </div>
 <div class="option-content" id="cookingMethodOption">
 <table>
-<tr><td>1</td><td>ShortCode</td><td>Cooking Method</td><td> </td><td>1</td><td>Y</td><td>Boiled</td><td>0</td><td>Grilled</td><td>0</td></tr>
+<tr><td>1</td><td>ShortCode</td><td>Cooking Method</td><td> </td><td>1</td><td>Y</td><td>Boiled</td><td>0</td><td>Grilled</td><td>0</td></tr>
 </table>
 <button onclick="copyTableContent(this)" style="margin-top:10px; padding:5px 10px; font-size:12px; border-radius:6px; cursor:pointer;">📋 Copy</button>
 </div>
 <div class="option-content" id="saladOption">
 <table>
-<tr><td>1</td><td>ShortCode</td><td>Your Choice Of Salad</td><td> </td><td>1</td><td>Y</td><td>Arabic Salad</td><td>0</td><td>Tahini Salad</td><td>0</td><td>Without Salad</td><td>0</td></tr>
+<tr><td>1</td><td>ShortCode</td><td>Your Choice Of Salad</td><td> </td><td>1</td><td>Y</td><td>Arabic Salad</td><td>0</td><td>Tahini Salad</td><td>0</td><td>Without Salad</td><td>0</td></tr>
 </table>
 <button onclick="copyTableContent(this)" style="margin-top:10px; padding:5px 10px; font-size:12px; border-radius:6px; cursor:pointer;">📋 Copy</button>
 </div>
 <div class="option-content" id="breadOption1">
 <table>
-<tr><td>1</td><td>ShortCode</td><td>Bread Type</td><td> </td><td>1</td><td>Y</td><td>Regular bread</td><td>0</td><td>Ka'ak bread</td><td>0</td><td>Shrak Bread</td><td>0</td></tr>
+<tr><td>1</td><td>ShortCode</td><td>Bread Type</td><td> </td><td>1</td><td>Y</td><td>Regular bread</td><td>0</td><td>Ka'ak bread</td><td>0</td><td>Shrak Bread</td><td>0</td></tr>
 </table>
 <button onclick="copyTableContent(this)" style="margin-top:10px; padding:5px 10px; font-size:12px; border-radius:6px; cursor:pointer;">📋 Copy</button>
 </div>
 <div class="option-content" id="sauceOption2">
 <table>
-<tr><td>1</td><td>ShortCode</td><td>Your Choice Of Sauce</td><td> </td><td>1</td><td>Y</td><td>Cocktail Sauce</td><td>0</td><td>Honey Mustard</td><td>0</td><td>Dynamite Sauce</td><td>0</td><td>(Buffalo + Ranch)</td><td>0</td><td>Sweet Chili</td><td>0</td><td>BBQ</td><td>0</td></tr>
+<tr><td>1</td><td>ShortCode</td><td>Your Choice Of Sauce</td><td> </td><td>1</td><td>Y</td><td>Cocktail Sauce</td><td>0</td><td>Honey Mustard</td><td>0</td><td>Dynamite Sauce</td><td>0</td><td>(Buffalo + Ranch)</td><td>0</td><td>Sweet Chili</td><td>0</td><td>BBQ</td><td>0</td></tr>
 </table>
 <button onclick="copyTableContent(this)" style="margin-top:10px; padding:5px 10px; font-size:12px; border-radius:6px; cursor:pointer;">📋 Copy</button>
 </div>
 <div class="option-content" id="friesOption">
 <table>
-<tr><td>1</td><td>ShortCode</td><td>Your Choice of Fries</td><td> </td><td>1</td><td>Y</td><td>French Fries</td><td>0</td><td>Wedges Fries</td><td>0</td><td>Curly Fries</td><td>0</td></tr>
+<tr><td>1</td><td>ShortCode</td><td>Your Choice of Fries</td><td> </td><td>1</td><td>Y</td><td>French Fries</td><td>0</td><td>Wedges Fries</td><td>0</td><td>Curly Fries</td><td>0</td></tr>
 </table>
 <button onclick="copyTableContent(this)" style="margin-top:10px; padding:5px 10px; font-size:12px; border-radius:6px; cursor:pointer;">📋 Copy</button>
 </div>
 <div class="option-content" id="weightOption2">
 <table>
-<tr><td>1</td><td>ShortCode</td><td>Your Choice of Weight</td><td> </td><td>1</td><td>Y</td><td>90g</td><td>0</td><td>180g</td><td>0</td></tr>
+<tr><td>1</td><td>ShortCode</td><td>Your Choice of Weight</td><td> </td><td>1</td><td>Y</td><td>90g</td><td>0</td><td>180g</td><td>0</td></tr>
 </table>
 <button onclick="copyTableContent(this)" style="margin-top:10px; padding:5px 10px; font-size:12px; border-radius:6px; cursor:pointer;">📋 Copy</button>
 </div>
 <div class="option-content" id="mojitoOption">
 <table>
-<tr><td>1</td><td>ShortCode</td><td>Your Choice of mojito</td><td> </td><td>1</td><td>Y</td><td>Xl</td><td>0</td><td>Boom Boom</td><td>0</td><td>Code Red</td><td>0</td></tr>
+<tr><td>1</td><td>ShortCode</td><td>Your Choice of mojito</td><td> </td><td>1</td><td>Y</td><td>Xl</td><td>0</td><td>Boom Boom</td><td>0</td><td>Code Red</td><td>0</td></tr>
 </table>
 <button onclick="copyTableContent(this)" style="margin-top:10px; padding:5px 10px; font-size:12px; border-radius:6px; cursor:pointer;">📋 Copy</button>
 </div>
 <div class="option-content" id="scoop1Option">
 <table>
-<tr><td>1</td><td>ShortCode</td><td>Choice of 1st Scoop</td><td> </td><td>1</td><td>Y</td><td>Cream</td><td>0</td><td>Chocolate</td><td>0</td><td>Custard</td><td>0</td><td>Peanut Butter</td><td>0</td><td>Latte</td><td>0</td></tr>
+<tr><td>1</td><td>ShortCode</td><td>Choice of 1st Scoop</td><td> </td><td>1</td><td>Y</td><td>Cream</td><td>0</td><td>Chocolate</td><td>0</td><td>Custard</td><td>0</td><td>Peanut Butter</td><td>0</td><td>Latte</td><td>0</td></tr>
 </table>
 <button onclick="copyTableContent(this)" style="margin-top:10px; padding:5px 10px; font-size:12px; border-radius:6px; cursor:pointer;">📋 Copy</button>
 </div>
 <div class="option-content" id="scoop2Option">
 <table>
-<tr><td>1</td><td>ShortCode</td><td>Choice of 2nd Scoop</td><td> </td><td>1</td><td>Y</td><td>Cream</td><td>0</td><td>Chocolate</td><td>0</td><td>Custard</td><td>0</td><td>Peanut Butter</td><td>0</td><td>Latte</td><td>0</td></tr>
+<tr><td>1</td><td>ShortCode</td><td>Choice of 2nd Scoop</td><td> </td><td>1</td><td>Y</td><td>Cream</td><td>0</td><td>Chocolate</td><td>0</td><td>Custard</td><td>0</td><td>Peanut Butter</td><td>0</td><td>Latte</td><td>0</td></tr>
 </table>
 <button onclick="copyTableContent(this)" style="margin-top:10px; padding:5px 10px; font-size:12px; border-radius:6px; cursor:pointer;">📋 Copy</button>
 </div>
 <div class="option-content" id="breadOption2">
 <table>
-<tr><td>1</td><td>ShortCode</td><td>Bread Type</td><td> </td><td>1</td><td>Y</td><td>Regular bread</td><td>0</td><td>Tortilla Bread</td><td>0</td><td>Turkish bread</td><td>0</td><td>Hamam bread</td><td>0</td><td>French bread</td><td>0</td></tr>
+<tr><td>1</td><td>ShortCode</td><td>Bread Type</td><td> </td><td>1</td><td>Y</td><td>Regular bread</td><td>0</td><td>Tortilla Bread</td><td>0</td><td>Turkish bread</td><td>0</td><td>Hamam bread</td><td>0</td><td>French bread</td><td>0</td></tr>
 </table>
 <button onclick="copyTableContent(this)" style="margin-top:10px; padding:5px 10px; font-size:12px; border-radius:6px; cursor:pointer;">📋 Copy</button>
 </div>
 <div class="option-content" id="chickenSizeOption">
 <table>
-<tr><td>1</td><td>ShortCode</td><td>Chicken Size</td><td> </td><td>1</td><td>Y</td><td>Half Chicken</td><td>0</td><td>Whole Chicken</td><td>0</td><td>One and a half Chicken</td><td>0</td><td>2 Chickens</td><td>0</td></tr>
+<tr><td>1</td><td>ShortCode</td><td>Chicken Size</td><td> </td><td>1</td><td>Y</td><td>Half Chicken</td><td>0</td><td>Whole Chicken</td><td>0</td><td>One and a half Chicken</td><td>0</td><td>2 Chickens</td><td>0</td></tr>
 </table>
 <button onclick="copyTableContent(this)" style="margin-top:10px; padding:5px 10px; font-size:12px; border-radius:6px; cursor:pointer;">📋 Copy</button>
 </div>
 <div class="option-content" id="milkOption">
 <table>
-<tr><td>1</td><td>ShortCode</td><td>Milk Type</td><td> </td><td>1</td><td>Y</td><td>Regular Milk</td><td>0</td><td>Lactose Free Milk</td><td>0</td><td>Soy Milk</td><td>0</td><td>Almond Milk</td><td>0</td></tr>
+<tr><td>1</td><td>ShortCode</td><td>Milk Type</td><td> </td><td>1</td><td>Y</td><td>Regular Milk</td><td>0</td><td>Lactose Free Milk</td><td>0</td><td>Soy Milk</td><td>0</td><td>Almond Milk</td><td>0</td></tr>
 </table>
 <button onclick="copyTableContent(this)" style="margin-top:10px; padding:5px 10px; font-size:12px; border-radius:6px; cursor:pointer;">📋 Copy</button>
 </div>
 <div class="option-content" id="extraOption">
 <table>
-<tr><td>1</td><td>ShortCode</td><td>Extra</td><td> </td><td>1</td><td>Y</td><td>Espresso Shot</td><td>0</td><td>Decaf</td><td>0</td></tr>
+<tr><td>1</td><td>ShortCode</td><td>Extra</td><td> </td><td>1</td><td>Y</td><td>Espresso Shot</td><td>0</td><td>Decaf</td><td>0</td></tr>
 </table>
 <button onclick="copyTableContent(this)" style="margin-top:10px; padding:5px 10px; font-size:12px; border-radius:6px; cursor:pointer;">📋 Copy</button>
 </div>
 <div class="option-content" id="addOnsOption1">
 <table>
-<tr><td>1</td><td>ShortCode</td><td>Add On's</td><td> </td><td>1</td><td>Y</td><td>Sour Sauce (Tatabila)</td><td>0</td><td>Hot Sauce (Shatta)</td><td>0</td><td>French fries</td><td>0</td></tr>
+<tr><td>1</td><td>ShortCode</td><td>Add On's</td><td> </td><td>1</td><td>Y</td><td>Sour Sauce (Tatabila)</td><td>0</td><td>Hot Sauce (Shatta)</td><td>0</td><td>French fries</td><td>0</td></tr>
 </table>
 <button onclick="copyTableContent(this)" style="margin-top:10px; padding:5px 10px; font-size:12px; border-radius:6px; cursor:pointer;">📋 Copy</button>
 </div>
 <div class="option-content" id="addScoopOption">
 <table>
-<tr><td>1</td><td>ShortCode</td><td>Add Scoop</td><td> </td><td>1</td><td>Y</td><td>Vanilla</td><td>0</td><td>Chocolate</td><td>0</td><td>Double Chocolate</td><td>0</td><td>Strawberry</td><td>0</td><td>BlueBerry</td><td>0</td><td>Lemon</td><td>0</td><td>Mango</td><td>0</td><td>Kiwi</td><td>0</td><td>Croquant</td><td>0</td><td>Watermelon</td><td>0</td><td>Raspberry</td><td>0</td><td>Banana</td><td>0</td><td>Pinacolada</td><td>0</td><td>Red Velvet</td><td>0</td><td>Hami Melon</td><td>0</td><td>Lychee</td><td>0</td></tr>
+<tr><td>1</td><td>ShortCode</td><td>Add Scoop</td><td> </td><td>1</td><td>Y</td><td>Vanilla</td><td>0</td><td>Chocolate</td><td>0</td><td>Double Chocolate</td><td>0</td><td>Strawberry</td><td>0</td><td>BlueBerry</td><td>0</td><td>Lemon</td><td>0</td><td>Mango</td><td>0</td><td>Kiwi</td><td>0</td><td>Croquant</td><td>0</td><td>Watermelon</td><td>0</td><td>Raspberry</td><td>0</td><td>Banana</td><td>0</td><td>Pinacolada</td><td>0</td><td>Red Velvet</td><td>0</td><td>Hami Melon</td><td>0</td><td>Lychee</td><td>0</td></tr>
 </table>
 <button onclick="copyTableContent(this)" style="margin-top:10px; padding:5px 10px; font-size:12px; border-radius:6px; cursor:pointer;">📋 Copy</button>
 </div>
 <div class="option-content" id="addOnsOption2">
 <table>
-<tr><td>1</td><td>ShortCode</td><td>Add On's</td><td> </td><td>1</td><td>Y</td><td>Pistachio</td><td>0</td><td>Lotus</td><td>0</td><td>Chocolate Chips</td><td>0</td><td>Coconut</td><td>0</td><td>Almonds</td><td>0</td><td>Walnut</td><td>0</td><td>Chocolate Ball</td><td>0</td><td>Rainbow</td><td>0</td></tr>
+<tr><td>1</td><td>ShortCode</td><td>Add On's</td><td> </td><td>1</td><td>Y</td><td>Pistachio</td><td>0</td><td>Lotus</td><td>0</td><td>Chocolate Chips</td><td>0</td><td>Coconut</td><td>0</td><td>Almonds</td><td>0</td><td>Walnut</td><td>0</td><td>Chocolate Ball</td><td>0</td><td>Rainbow</td><td>0</td></tr>
 </table>
 <button onclick="copyTableContent(this)" style="margin-top:10px; padding:5px 10px; font-size:12px; border-radius:6px; cursor:pointer;">📋 Copy</button>
 </div>
@@ -590,7 +596,6 @@ function copyTableContent(button) {
 }
 
 </script>
-<!-- مربع لإدخال نسبة الخصم مع ظهور الجمل -->
 <div class="proper-tools-row" style="margin-top: 40px;">
 <div class="proper-case-tool" style="min-width: 400px;">
 <h2>Discount Sentences</h2>
@@ -600,7 +605,6 @@ function copyTableContent(button) {
 <div id="englishMessage"></div>
 </div>
 </div>
-<!-- أداة Capitalize (بدون زر، يتم التنفيذ بالضغط على Enter) -->
 <div class="proper-case-tool">
 <h2>Capitalize Text</h2>
 <textarea id="inputText" onkeydown="if(event.key==='Enter'){event.preventDefault();toProperCase();}" placeholder="Enter text here" rows="2">
@@ -630,7 +634,7 @@ function copyTableContent(button) {
       `خصومات حصرية`,
       `خصم ${val}% على جميع الوجبات`,
       `خصم دينار على التوصيل`,
-           `توصيل مجاني`,
+            `توصيل مجاني`,
     ];
 
     const englishTemplates = [
