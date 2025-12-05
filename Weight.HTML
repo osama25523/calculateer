@@ -4,68 +4,87 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Weight</title>
-<a id="link1" href="index.html">Discount & Sale Price</a>
+
+  <a id="link1" href="index.html">Discount & Sale Price</a>
+
   <style>
-    body { 
-      font-family: Arial; 
-      padding: 0; 
-      margin: 0; 
-      background:#f0f0f5; 
-      display:flex; 
-      align-items:flex-start; 
+    body {
+      font-family: Arial;
+      padding: 0;
+      margin: 0;
+      background:#f0f0f5;
+      display:flex;
+      align-items:flex-start;
     }
 
     .table-container {
-      width:50%; /* نصف الصفحة */
+      width:50%;
       padding:10px;
       box-sizing:border-box;
     }
 
-    table { 
-      width:100%; 
-      border-collapse:collapse; 
-      background:white; 
-      direction:ltr; 
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1); 
-      font-size:14px; 
-      table-layout:fixed; 
+    table {
+      width:100%;
+      border-collapse:collapse;
+      background:white;
+      direction:ltr;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      font-size:14px;
+      table-layout:fixed;
     }
 
-    th, td { 
-      border:1px solid #ccc; 
-      padding:4px; 
-      text-align:center; 
-      min-width:50px; 
-      overflow:hidden; 
-      white-space:nowrap; 
+    th, td {
+      border:1px solid #ccc;
+      padding:4px;
+      text-align:center;
+      min-width:50px;
+      overflow:hidden;
+      white-space:nowrap;
+      position: relative;
     }
 
     th { background:#444; color:white; font-weight:bold; }
+
     td[contenteditable="true"] { background:#fff9c4; font-weight:bold; }
     td.readonly { background:#f9f9f9; }
 
-    /* ألوان الأعمدة */
     .c2 { background:#ffcccc; }
     .c3 { background:#cce5ff; }
     .c4 { background:#ccffcc; }
     .c5 { background:#ffe0b3; }
     .c6 { background:#e0ccff; }
 
-    /* صفوف متناوبة */
     tbody tr:nth-child(odd) { background:#fdfdfd; }
     tbody tr:nth-child(even) { background:#f6f6f6; }
 
-    /* تمييز السعر */
     .price { background:#fff59d; font-weight:bold; border:1px solid #ffd700; }
 
-    .controls { display:flex; gap:5px; margin-bottom:5px; justify-content:flex-start; flex-wrap:wrap; }
+    .controls { display:flex; gap:5px; margin-bottom:5px; }
     .controls input { font-size:14px; padding:4px; width:60px; }
+
+    button {
+      padding:6px 14px;
+      font-size:15px;
+      border:none;
+      border-radius:6px;
+      cursor:pointer;
+    }
+
+    #copyAll { background:#4c8bf5; color:white; }
+    #copyShort { background:#34a853; color:white; }
   </style>
 </head>
+
 <body>
 
 <div class="table-container">
   <h2 style="text-align:left; color:#333;">Weight</h2>
+
+  <!-- أزرار النسخ -->
+  <div style="display:flex; gap:5px; margin-bottom:5px;">
+    <button id="copyAll">📋 Copy All</button>
+    <button id="copyShort">📋 Copy with Short Code</button>
+  </div>
 
   <div class="controls">
     <input id="hdr3" type="number" value="0" placeholder="عنوان 3">
@@ -77,7 +96,7 @@
   <table>
     <thead>
       <tr>
-        <th>Real Price</th>
+        <th id="th1">Real Price</th>
         <th id="th2">External Price</th>
         <th id="th3">0 g</th>
         <th id="th4">500 g</th>
@@ -95,6 +114,7 @@ const tbody = document.getElementById("tbody");
 
 function fmt(n){ return Math.round(n*1e6)/1e6; }
 
+// إنشاء الصفوف
 for(let i=0;i<ROWS;i++){
   const tr = document.createElement("tr");
 
@@ -118,6 +138,7 @@ for(let i=0;i<ROWS;i++){
   tbody.appendChild(tr);
 }
 
+// عناصر إدخال الرؤوس
 const hdr3 = document.getElementById("hdr3");
 const hdr4 = document.getElementById("hdr4");
 const hdr5 = document.getElementById("hdr5");
@@ -138,25 +159,96 @@ function recompute(){
 
   tbody.querySelectorAll("tr").forEach(tr=>{
     const price = parseFloat(tr.querySelector(".price").textContent) || 0;
+
     tr.querySelector(".c2").textContent = fmt((h3/1000)*price);
-    tr.querySelector(".c4").textContent = fmt((v4/1000)*price)-(h3/1000)*price;
-    tr.querySelector(".c5").textContent = fmt((v5/1000)*price)-(h3/1000)*price;
-    tr.querySelector(".c6").textContent = fmt((v6/1000)*price)-(h3/1000)*price;
+    tr.querySelector(".c4").textContent = fmt((v4/1000)*price - (h3/1000)*price);
+    tr.querySelector(".c5").textContent = fmt((v5/1000)*price - (h3/1000)*price);
+    tr.querySelector(".c6").textContent = fmt((v6/1000)*price - (h3/1000)*price);
   });
 }
 
 [hdr3, hdr4, hdr5, hdr6].forEach(h=>{
-  h.addEventListener("input",()=>{
-    updateHeaders();
+  h.addEventListener("input",()=>{ updateHeaders(); recompute(); });
+});
+
+// **تحديث تلقائي عند تعديل أي سعر**
+tbody.querySelectorAll(".price").forEach(td=>{
+  td.addEventListener("input", recompute);
+});
+
+// لصق من Excel
+tbody.addEventListener("paste", e=>{
+  const text = (e.clipboardData || window.clipboardData).getData("text");
+  if(text.includes("\n")){
+    e.preventDefault();
+    const rows = text.trim().split("\n");
+
+    let startCell = e.target;
+    let tr = startCell.parentElement;
+    let rowIndex = [...tbody.children].indexOf(tr);
+
+    rows.forEach((value, i)=>{
+      if(rowIndex + i >= ROWS) return;
+
+      const targetRow = tbody.children[rowIndex + i];
+      const firstCell = targetRow.children[0];
+
+      firstCell.textContent = value.trim();
+    });
+
     recompute();
+  }
+});
+
+// Enter ينزل للسطر التالي
+tbody.addEventListener("keydown", e=>{
+  if(e.key === "Enter"){
+    e.preventDefault();
+    let cell = e.target;
+    if(cell.tagName !== "TD") return;
+
+    let row = cell.parentElement;
+    let next = row.nextElementSibling;
+    if(next){
+      next.children[0].focus();
+    }
+  }
+});
+
+// زر نسخ كل الجدول بدون الصفوف الفارغة أو الصفوف التي قيمها صفر
+document.getElementById("copyAll").onclick = ()=>{
+  let text = "";
+  tbody.querySelectorAll("tr").forEach(tr=>{
+    let row = [];
+    Array.from(tr.children).forEach(td=>{
+      let val = td.textContent.trim();
+      if(val !== "" && val !== "0") row.push(val);
+    });
+    if(row.length) text += row.join("\t") + "\n";
   });
-});
 
-tbody.addEventListener("input", e=>{
-  if(e.target.classList.contains("price")) recompute();
-});
+  navigator.clipboard.writeText(text.trim());
+};
 
-updateHeaders();
+// زر النسخ بالـ Short Code مع فراغات محددة وترتيب الأعمدة المطلوب
+document.getElementById("copyShort").onclick = ()=>{
+  let text = "";
+  tbody.querySelectorAll("tr").forEach(tr=>{
+    const col3 = tr.children[2].textContent.trim();
+    const col4 = tr.children[3].textContent.trim();
+    const col5 = tr.children[4].textContent.trim();
+    const col6 = tr.children[5].textContent.trim();
+
+    // تجاهل الصفوف التي كل قيمها فارغة أو صفر
+    if((col3 !== "" && col3 !== "0") || (col4 !== "" && col4 !== "0") || 
+       (col5 !== "" && col5 !== "0") || (col6 !== "" && col6 !== "0")){
+
+      text +="+ShortCode+\t\t\t\t\t\t\t" + col3 + col3 + "\t\t" + col4 + "\t\t" + col5 + "\t\t" + col6 + "\n";
+    }
+  });
+
+  navigator.clipboard.writeText(text.trim());
+};
 </script>
 
 </body>
